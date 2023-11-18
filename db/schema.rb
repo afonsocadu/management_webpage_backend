@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_11_16_224505) do
+ActiveRecord::Schema.define(version: 2023_11_18_173221) do
 
   create_table "employees", force: :cascade do |t|
     t.string "user_name"
@@ -19,6 +19,12 @@ ActiveRecord::Schema.define(version: 2023_11_16_224505) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["project_id"], name: "index_employees_on_project_id"
+  end
+
+  create_table "projects", force: :cascade do |t|
+    t.string "title"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   add_foreign_key "employees", "projects"
