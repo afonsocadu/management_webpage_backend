@@ -5,39 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="83881717-2478-4462-930b-d89f891f36cc" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/spec/controllers/employees_controller_test.rb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/management_webpage_api.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/management_webpage_api.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Gemfile" beforeDir="false" afterPath="$PROJECT_DIR$/Gemfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Gemfile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/Gemfile.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Rakefile" beforeDir="false" afterPath="$PROJECT_DIR$/Rakefile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/controllers/employees_controller.rb" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/employees_controller.rb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/models/project.rb" beforeDir="false" afterPath="$PROJECT_DIR$/app/models/project.rb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/bundle" beforeDir="false" afterPath="$PROJECT_DIR$/bin/bundle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/rails" beforeDir="false" afterPath="$PROJECT_DIR$/bin/rails" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/rake" beforeDir="false" afterPath="$PROJECT_DIR$/bin/rake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/setup" beforeDir="false" afterPath="$PROJECT_DIR$/bin/setup" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/spring" beforeDir="false" afterPath="$PROJECT_DIR$/bin/spring" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config.ru" beforeDir="false" afterPath="$PROJECT_DIR$/config.ru" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/application.rb" beforeDir="false" afterPath="$PROJECT_DIR$/config/application.rb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/boot.rb" beforeDir="false" afterPath="$PROJECT_DIR$/config/boot.rb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/environment.rb" beforeDir="false" afterPath="$PROJECT_DIR$/config/environment.rb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/environments/development.rb" beforeDir="false" afterPath="$PROJECT_DIR$/config/environments/development.rb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/environments/production.rb" beforeDir="false" afterPath="$PROJECT_DIR$/config/environments/production.rb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/environments/test.rb" beforeDir="false" afterPath="$PROJECT_DIR$/config/environments/test.rb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/initializers/backtrace_silencers.rb" beforeDir="false" afterPath="$PROJECT_DIR$/config/initializers/backtrace_silencers.rb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/initializers/cors.rb" beforeDir="false" afterPath="$PROJECT_DIR$/config/initializers/cors.rb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/initializers/filter_parameter_logging.rb" beforeDir="false" afterPath="$PROJECT_DIR$/config/initializers/filter_parameter_logging.rb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/puma.rb" beforeDir="false" afterPath="$PROJECT_DIR$/config/puma.rb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/routes.rb" beforeDir="false" afterPath="$PROJECT_DIR$/config/routes.rb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/spring.rb" beforeDir="false" afterPath="$PROJECT_DIR$/config/spring.rb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/schema.rb" beforeDir="false" afterPath="$PROJECT_DIR$/db/schema.rb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/channels/application_cable/connection_test.rb" beforeDir="false" afterPath="$PROJECT_DIR$/test/channels/application_cable/connection_test.rb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/controllers/.keep" beforeDir="false" afterPath="$PROJECT_DIR$/spec/controllers/.keep" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/controllers/employees_controller_test.rb" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/models/employee_test.rb" beforeDir="false" afterPath="$PROJECT_DIR$/test/models/employee_test.rb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/models/project_test.rb" beforeDir="false" afterPath="$PROJECT_DIR$/test/models/project_test.rb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/test_helper.rb" beforeDir="false" afterPath="$PROJECT_DIR$/test/test_helper.rb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/spec/controllers/employees_controller_test.rb" beforeDir="false" afterPath="$PROJECT_DIR$/spec/controllers/employees_controller_test.rb" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -193,7 +161,7 @@
       <workItem from="1700174160716" duration="1075000" />
       <workItem from="1700219032013" duration="1319000" />
       <workItem from="1700241254599" duration="4210000" />
-      <workItem from="1700327562004" duration="14083000" />
+      <workItem from="1700327562004" duration="14784000" />
     </task>
     <servers />
   </component>
