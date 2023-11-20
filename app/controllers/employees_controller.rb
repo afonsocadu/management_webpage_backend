@@ -1,5 +1,4 @@
 class EmployeesController < ApplicationController
-
   def index
     employees = Employee.includes(:project).all
 
