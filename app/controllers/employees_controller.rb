@@ -5,4 +5,15 @@ class EmployeesController < ApplicationController
     render status: 200,
            json: employees
   end
+
+  def destroy
+    employee = Employee.find(params[:id])
+
+    if employee
+      employee.destroy
+      render json: { message: 'Employee deleted succesfully!' }
+    else
+      render json: { error: 'Employee not found' },  status: :unprocessable_entity
+    end
+  end
 end
