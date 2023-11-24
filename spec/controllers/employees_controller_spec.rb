@@ -16,7 +16,7 @@ RSpec.describe EmployeesController, type: :controller do
       json_response = JSON.parse(response.body)
 
       expect(json_response[0]['user_name']).to eq('Amaral')
-      expect(json_response[0]['project']['title']).to eq('Indirect')
+      expect(json_response[0]['title']).to eq('Indirect')
     end
   end
 
@@ -35,4 +35,3 @@ RSpec.describe EmployeesController, type: :controller do
     end
   end
 end
-# Eu queria conseguir adicionar um before_do para este get :index

@@ -5,7 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="83881717-2478-4462-930b-d89f891f36cc" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/spec/controllers/employees_controller_test.rb" beforeDir="false" afterPath="$PROJECT_DIR$/spec/controllers/employees_controller_test.rb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/controllers/employees_controller.rb" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/employees_controller.rb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/spec/controllers/employees_controller_test.rb" beforeDir="false" afterPath="$PROJECT_DIR$/spec/controllers/employees_controller_spec.rb" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -25,7 +27,7 @@
                 <list>
                   <RecentBranch>
                     <option name="branchName" value="feature/mw-1" />
-                    <option name="lastUsedInstant" value="1700331270" />
+                    <option name="lastUsedInstant" value="1700864769" />
                   </RecentBranch>
                   <RecentBranch>
                     <option name="branchName" value="development" />
