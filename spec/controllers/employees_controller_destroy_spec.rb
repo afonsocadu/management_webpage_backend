@@ -16,14 +16,13 @@ RSpec.describe EmployeesController, type: :controller do
       delete :destroy, params: { id: '2' }
 
       expect(Employee.all.size).to eq(1)
+      #Ainda não consegui fazer este funcionar
     end
 
     it 'returns status code 404' do
       expect { delete :destroy, params: { id: '2' } }
         .to raise_error(ActiveRecord::RecordNotFound)
 
-      # delete :destroy, params: { id: '2' }
-      # expect(response).to have_http_status(:not_found)
     end
   end
 
