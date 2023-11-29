@@ -16,4 +16,22 @@ class EmployeesController < ApplicationController
       render json: { error: 'Employee not found' },  status: :unprocessable_entity
     end
   end
+
+  def update
+    byebug
+    employee = Employee.find(params[:id])
+    title = params.require(:project)
+
+    if title
+      project_id = Project.find_by(title: title).id
+    end
+
+    if employee && project_id
+      employee.update(user_name: params[:user_name], project_id: project_id)
+      render status: :ok, json: employee
+    else
+      render status: :unprocessable_entity, json: { error: 'Employee was not updated!' }
+
+    end
+  end
 end
