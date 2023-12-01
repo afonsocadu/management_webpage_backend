@@ -5,7 +5,6 @@ require 'rails_helper'
 RSpec.describe EmployeesController, type: :controller do
   let(:endpoint) { 'app/controllers/employees_controller' }
 
-
   before do
     project = Project.create(title: 'Indirect')
     Employee.create(user_name: 'Amaral', project:)
@@ -40,7 +39,3 @@ RSpec.describe EmployeesController, type: :controller do
     end
   end
 end
-
-
-#Um teste não funciona
-# #Eu queria poder passar o let endpoint

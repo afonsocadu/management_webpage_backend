@@ -18,7 +18,6 @@ class EmployeesController < ApplicationController
   end
 
   def update
-    byebug
     employee = Employee.find(params[:id])
     title = params.require(:project)
 
