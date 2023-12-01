@@ -54,11 +54,3 @@ RSpec.describe EmployeesController, type: :controller do
   end
 end
 
-
-
-
-  #put :update, params: employee_to_update, as: :json
-
-  #expect(employee.user_name).to eq('Amaral')
-  #expect(employee.project).to eq('Project 2')
-
