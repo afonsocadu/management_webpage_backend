@@ -33,4 +33,24 @@ class EmployeesController < ApplicationController
 
     end
   end
+
+  def create
+    title = params[:project]
+    user_name = params[:user_name]
+
+    if title && user_name
+      project = Project.find_by(title: title)
+
+      employee = Employee.new(
+        user_name: user_name,
+        project_id: project.id,
+      )
+
+      if employee.save
+        render status: :ok, json: employee
+      else
+        render status: :unprocessable_entity, json: { error: 'Employee was not created!' }
+      end
+    end
+  end
 end

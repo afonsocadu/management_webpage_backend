@@ -34,7 +34,7 @@ RSpec.describe EmployeesController, type: :controller do
 
   end
 
-  context 'with valid workspace params' do
+  context 'with valid employee params' do
     employee_to_update = { id: 1, user_name: 'Amaral', project: 'Project 2' }
 
     it 'returns 200' do
