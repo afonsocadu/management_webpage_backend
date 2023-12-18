@@ -1,6 +1,5 @@
 Rails.application.routes.draw do
-  resources :employees, only: %i[index destroy update create] do
-  end
+  resources :employees
 
-  resources :projects, only: %i[index]
+  resources :projects, only: [:index]
 end

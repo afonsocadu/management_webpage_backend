@@ -3,9 +3,8 @@
 require 'rails_helper'
 
 RSpec.describe EmployeesController, type: :controller do
-
   context 'When all params are valid' do
-    let(:params) do { user_name: 'Amaral', project: 'Project 1' } end
+    let(:params) { { user_name: 'Amaral', project: 'Project 1' } }
 
     before do
       FactoryBot.reload
@@ -13,46 +12,43 @@ RSpec.describe EmployeesController, type: :controller do
     end
 
     it 'returns status code 200' do
-      post :create, params: params, as: :json
+      post :create, params:, as: :json
 
       expect(response).to have_http_status(:ok)
     end
 
     it 'creates the Employee' do
-      post :create, params: params, as: :json
+      post :create, params:, as: :json
 
       expect(Employee.all.size).to be(1)
     end
   end
 
   context 'without user_name param' do
-    let(:params) do {  project: 'Project 1' } end
-
+    let(:params) { { project: 'Project 1' } }
 
     it 'returns status code 400' do
-      post :create, params: params, as: :json
+      post :create, params:, as: :json
 
       expect(response).to have_http_status(:no_content)
     end
   end
 
   context 'without title param' do
-    let(:params) do { user_name: 'Amaral' } end
-
+    let(:params) { { user_name: 'Amaral' } }
 
     it 'returns status code 400' do
-      post :create, params: params, as: :json
+      post :create, params:, as: :json
 
       expect(response).to have_http_status(:no_content)
     end
   end
 
   context 'without employee params' do
-    let(:params) do {  } end
-
+    let(:params) { {} }
 
     it 'returns status code 400' do
-      post :create, params: params, as: :json
+      post :create, params:, as: :json
 
       expect(response).to have_http_status(:no_content)
     end

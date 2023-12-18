@@ -3,6 +3,6 @@ class ProjectsController < ApplicationController
     projects = Project.all
 
     render status: 200,
-           json: projects.as_json
+           json: projects
   end
 end

@@ -1,8 +1,8 @@
 # frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe EmployeesController, type: :controller do
-
   before do
     FactoryBot.reload
     create_list(:project, 3)
@@ -10,28 +10,26 @@ RSpec.describe EmployeesController, type: :controller do
   end
 
   context 'without employee params' do
-
     it 'returns status code 400' do
       expect { put :update, params: { id: 1 } }
         .to raise_error(ActionController::ParameterMissing)
     end
 
     it 'does not update the record' do
-      expect {
+      expect do
         put :update, params: { id: 1, employee: { user_name: 'NovoNome' } }
-      }.to raise_error(ActionController::ParameterMissing)
+      end.to raise_error(ActionController::ParameterMissing)
     end
   end
 
   context 'When do not find employee id' do
-    employee_nonexistent = { id: 100, employee: { user_name: 'Cadu', project: 'Project 1' } }
+    employee_nonexistent = { id: 100, user_name: 'Cadu', project: 'Project 1' }
 
     it 'returns status code 400' do
+      put :update, params: employee_nonexistent, as: :json
 
-      expect { put :update, params: employee_nonexistent }
-        .to raise_error(ActiveRecord::RecordNotFound)
+      expect(response).to have_http_status(:not_found)
     end
-
   end
 
   context 'with valid employee params' do
@@ -53,4 +51,3 @@ RSpec.describe EmployeesController, type: :controller do
     end
   end
 end
-

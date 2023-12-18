@@ -11,17 +11,16 @@ RSpec.describe EmployeesController, type: :controller do
   end
 
   context 'when provided employee id does not exist' do
-    xit 'does not destroy the employee' do
-      delete :destroy, params: { id: '2' }
-
-      expect(Employee.all.size).to eq(1)
-      #Ainda não consegui fazer este funcionar
+    it 'does not destroy the employee' do
+      expect do
+        delete :destroy, params: { id: '2' }
+      end.not_to change(Employee, :count)
     end
 
     it 'returns status code 404' do
-      expect { delete :destroy, params: { id: '2' } }
-        .to raise_error(ActiveRecord::RecordNotFound)
+      delete :destroy, params: { id: '2' }
 
+      expect(response).to have_http_status(:not_found)
     end
   end
 
@@ -36,6 +35,19 @@ RSpec.describe EmployeesController, type: :controller do
       delete :destroy, params: { id: '1' }
 
       expect(Employee.all.size).to eq(0)
+    end
+  end
+
+  context 'when deletion fails' do
+    it 'returns an error response' do
+      allow(Employee)
+        .to receive(:find)
+        .and_return(instance_double(Employee, destroy: false,
+                                              errors: instance_double(ActiveModel::Errors, full_messages: [])))
+
+      delete :destroy, params: { id: 1 }
+
+      expect(response).to have_http_status(:unprocessable_entity)
     end
   end
 end

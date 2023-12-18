@@ -7,39 +7,60 @@ class EmployeesController < ApplicationController
   end
 
   def destroy
-    employee = Employee.find(params[:id])
+    begin
+      employee = Employee.find(params[:id])
 
-    if employee
-      employee.destroy
-      render json: { message: 'Employee deleted succesfully!' }
-    else
-      render json: { error: 'Employee not found' },  status: :unprocessable_entity
+      if employee.destroy
+        render json: { message: 'Employee deleted successfully!' }
+      else
+        render json: { error: 'An error occurred when trying to delete the employee', details: employee.errors.full_messages }, status: :unprocessable_entity
+      end
+    rescue ActiveRecord::RecordNotFound
+      render json: { error: 'Employee not found' }, status: :not_found
     end
   end
 
+
   def update
-    employee = Employee.find(params[:id])
+    begin
+      employee = Employee.find(params[:id])
+    rescue ActiveRecord::RecordNotFound
+      render json: { error: 'Employee not found' }, status: :not_found
+      return
+    end
+
     title = params.require(:project)
 
     if title
-      project_id = Project.find_by(title: title).id
+      project_id = Project.find_by(title: title)&.id
     end
 
-    if employee && project_id
-      employee.update(user_name: params[:user_name], project_id: project_id)
+    unless project_id
+      render status: :unprocessable_entity,
+             json: 'Não existe projeto para o título dado'
+    end
+
+    if employee.update(user_name: params[:user_name], project_id: project_id)
       render status: :ok, json: employee
     else
       render status: :unprocessable_entity, json: { error: 'Employee was not updated!' }
-
     end
   end
 
+
   def create
+    begin
     title = params[:project]
     user_name = params[:user_name]
+    unless title && user_name
+      render status: :no_content, json: { error: 'Both project title and user name are required' }
+      return
+    end
 
-    if title && user_name
       project = Project.find_by(title: title)
+      rescue ActiveRecord::RecordNotFound
+        render json: { error: 'Employee not found' }, status: :not_found
+      end
 
       employee = Employee.new(
         user_name: user_name,
@@ -52,5 +73,4 @@ class EmployeesController < ApplicationController
         render status: :unprocessable_entity, json: { error: 'Employee was not created!' }
       end
     end
-  end
 end
