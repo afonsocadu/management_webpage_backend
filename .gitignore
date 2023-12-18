@@ -301,19 +301,18 @@ fabric.properties
 .ionide
 
 ### Local and Test Settings ###
-#.idea/workspace.xml
-#.test/test_helper.rb
-#.test/fixtures/projects.yml
-#.test/fixtures/employees.yml
-#.spec/spec_helper.rb
-#.spec/rails_helper.rb
-#.config/spring.rb
-#.config/puma.rb
-#.config/initializers/filter_parameter_logging.rb
-#.config/initializers/backtrace_silencers.rb
-#.config/environments/test.rb
-
-#.config/environments/production.rb
+.idea/workspace.xml
+.test/test_helper.rb
+.test/fixtures/projects.yml
+.test/fixtures/employees.yml
+.spec/spec_helper.rb
+.spec/rails_helper.rb
+.config/spring.rb
+.config/puma.rb
+.config/initializers/filter_parameter_logging.rb
+.config/initializers/backtrace_silencers.rb
+.config/environments/test.rb
+.config/environments/production.rb
 
 
 
