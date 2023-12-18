@@ -37,7 +37,7 @@ class EmployeesController < ApplicationController
 
     unless project_id
       render status: :unprocessable_entity,
-             json: 'Não existe projeto para o título dado'
+             json: 'The project does not exist'
     end
 
     if employee.update(user_name: params[:user_name], project_id: project_id)
