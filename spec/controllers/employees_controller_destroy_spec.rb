@@ -7,7 +7,7 @@ RSpec.describe EmployeesController, type: :controller do
 
   before do
     project = Project.create(title: 'Indirect')
-    Employee.create(user_name: 'Amaral', project:)
+    Employee.create(user_name: 'Amaral', project: project)
   end
 
   context 'when provided employee id does not exist' do
