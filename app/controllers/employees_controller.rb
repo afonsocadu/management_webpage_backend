@@ -39,12 +39,12 @@ class EmployeesController < ApplicationController
     title = params.require(:project)
     user_name = params.require(:user_name)
 
-    project = Project.find_by(title: title)
+    title = Project.find_by(title: title)
 
 
     employee = Employee.new(
       user_name: user_name,
-      project_id: project.id,
+      project_id: title.id,
     )
 
     if employee.save
