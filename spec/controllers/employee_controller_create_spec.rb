@@ -12,13 +12,13 @@ RSpec.describe EmployeesController, type: :controller do
     end
 
     it 'returns status code 200' do
-      post :create, params:, as: :json
+      post :create, params: params, as: :json
 
       expect(response).to have_http_status(:ok)
     end
 
     it 'creates the Employee' do
-      post :create, params:, as: :json
+      post :create, params: params, as: :json
 
       expect(Employee.all.size).to be(1)
     end
@@ -28,9 +28,9 @@ RSpec.describe EmployeesController, type: :controller do
     let(:params) { { project: 'Project 1' } }
 
     it 'returns status code 400' do
-      post :create, params:, as: :json
+      post :create, params: params, as: :json
 
-      expect(response).to have_http_status(:no_content)
+      expect(response).to have_http_status(:bad_request)
     end
   end
 
@@ -38,9 +38,9 @@ RSpec.describe EmployeesController, type: :controller do
     let(:params) { { user_name: 'Amaral' } }
 
     it 'returns status code 400' do
-      post :create, params:, as: :json
+      post :create, params: params, as: :json
 
-      expect(response).to have_http_status(:no_content)
+      expect(response).to have_http_status(:bad_request)
     end
   end
 
@@ -48,9 +48,9 @@ RSpec.describe EmployeesController, type: :controller do
     let(:params) { {} }
 
     it 'returns status code 400' do
-      post :create, params:, as: :json
+      post :create, params: params, as: :json
 
-      expect(response).to have_http_status(:no_content)
+      expect(response).to have_http_status(:bad_request)
     end
   end
 end

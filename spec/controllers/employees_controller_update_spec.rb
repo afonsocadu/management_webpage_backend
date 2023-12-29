@@ -11,14 +11,9 @@ RSpec.describe EmployeesController, type: :controller do
 
   context 'without employee params' do
     it 'returns status code 400' do
-      expect { put :update, params: { id: 1 } }
-        .to raise_error(ActionController::ParameterMissing)
-    end
+       put :update, params: { id: 1 }
 
-    it 'does not update the record' do
-      expect do
-        put :update, params: { id: 1, employee: { user_name: 'NovoNome' } }
-      end.to raise_error(ActionController::ParameterMissing)
+       expect(response).to have_http_status(:bad_request)
     end
   end
 

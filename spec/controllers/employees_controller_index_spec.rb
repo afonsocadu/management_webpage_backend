@@ -11,7 +11,7 @@ RSpec.describe EmployeesController, type: :controller do
 
     it 'returns the right response' do
       project = Project.create(title: 'Indirect')
-      Employee.create(user_name: 'Amaral', project:)
+      Employee.create(user_name: 'Amaral', project: project)
 
       get :index
       json_response = JSON.parse(response.body)
