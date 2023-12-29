@@ -7,14 +7,9 @@ class ProjectsController < ApplicationController
   end
 
   def create
-    begin
-      title = params[:title]
-      unless title
-        render status: :no_content, json: { error: 'Title is required' }
-        return
-      end
-
+      title = params.require(:title)
       project = Project.new(title: title)
+
       if project.save
         render status: :ok, json: project
       else
@@ -22,4 +17,3 @@ class ProjectsController < ApplicationController
       end
     end
   end
-end
