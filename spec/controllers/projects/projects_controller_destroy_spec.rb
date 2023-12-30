@@ -2,18 +2,17 @@
 
 require 'rails_helper'
 
-RSpec.describe EmployeesController, type: :controller do
+RSpec.describe ProjectsController, type: :controller do
 
   before do
-    project = Project.create(title: 'Indirect')
-    Employee.create(user_name: 'Amaral', project: project)
+    Project.create(title: 'Indirect')
   end
 
-  context 'when provided employee id does not exist' do
-    it 'does not destroy the employee' do
-      expect do
-        delete :destroy, params: { id: '2' }
-      end.not_to change(Employee, :count)
+  context 'when provided project id does not exist' do
+    it 'does not destroy the project' do
+      delete :destroy, params: { id: '2' }
+
+      expect(Project.all.size).to be(1)
     end
 
     it 'returns status code 404' do
@@ -23,14 +22,14 @@ RSpec.describe EmployeesController, type: :controller do
     end
   end
 
-  context 'when provided employee id does exist' do
+  context 'when provided project id does exist' do
     it 'returns status code 200' do
       delete :destroy, params: { id: '1' }
 
       expect(response).to have_http_status(:ok)
     end
 
-    it 'destroys the employee' do
+    it 'destroys the project' do
       delete :destroy, params: { id: '1' }
 
       expect(Employee.all.size).to eq(0)
@@ -39,10 +38,10 @@ RSpec.describe EmployeesController, type: :controller do
 
   context 'when deletion fails' do
     it 'returns an error response' do
-      allow(Employee)
+      allow(Project)
         .to receive(:find)
-        .and_return(instance_double(Employee, destroy: false,
-                                              errors: instance_double(ActiveModel::Errors, full_messages: [])))
+              .and_return(instance_double(Project, destroy: false,
+                                          errors: instance_double(ActiveModel::Errors, full_messages: [])))
 
       delete :destroy, params: { id: 1 }
 
