@@ -3,6 +3,13 @@
 require 'rails_helper'
 
 RSpec.describe EmployeesController, type: :controller do
+  before do
+    FactoryBot.reload
+    @project = create(:project)
+    @technology = create_list(:technology, 3)
+
+  end
+
   context 'When there are employees to list' do
     it 'renders a successful response' do
       get :index
@@ -10,14 +17,16 @@ RSpec.describe EmployeesController, type: :controller do
     end
 
     it 'returns the right response' do
-      project = Project.create(title: 'Indirect')
-      Employee.create(user_name: 'Amaral', project: project)
+      #project = Project.create(title: 'Indirect')
+      employee = Employee.create(user_name: 'Amaral', project: @project)
+      employee.technologies << @technology
 
       get :index
       json_response = JSON.parse(response.body)
 
       expect(json_response[0]['user_name']).to eq('Amaral')
-      expect(json_response[0]['title']).to eq('Indirect')
+      expect(json_response[0]['title']).to eq('Project 1')
+      expect(json_response[0]['technologies']).to eq( ["Name 1", "Name 2", "Name 3"])
     end
   end
 

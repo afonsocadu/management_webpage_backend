@@ -4,11 +4,12 @@ require 'rails_helper'
 
 RSpec.describe EmployeesController, type: :controller do
   context 'When all params are valid' do
-    let(:params) { { user_name: 'Amaral', project: 'Project 1' } }
+    let(:params) { { user_name: 'Amaral', project: 'Project 1', technology: 'Name 1' } }
 
     before do
       FactoryBot.reload
       create(:project)
+      create(:technology)
     end
 
     it 'returns status code 200' do
