@@ -313,6 +313,7 @@ fabric.properties
 .config/initializers/backtrace_silencers.rb
 .config/environments/test.rb
 .config/environments/production.rb
+misc.xml
 
 
 

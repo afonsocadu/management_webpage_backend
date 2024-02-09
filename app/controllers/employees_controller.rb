@@ -23,9 +23,9 @@ class EmployeesController < ApplicationController
   def update
     employee = Employee.find(params[:id])
 
-    title = params.require(:project)
+    project_title = params.require(:project)
 
-    project_id = Project.find_by!(title: title)&.id
+    project_id = Project.find_by!(title: project_title)&.id
 
     if employee.update(user_name: params[:user_name], project_id: project_id)
       render status: :ok, json: employee
@@ -39,12 +39,12 @@ class EmployeesController < ApplicationController
     title = params.require(:project)
     user_name = params.require(:user_name)
 
-    title = Project.find_by(title: title)
+    project = Project.find_by(title: title)
 
 
     employee = Employee.new(
       user_name: user_name,
-      project_id: title.id,
+      project_id: project.id,
     )
 
     if employee.save
