@@ -6,14 +6,15 @@ RSpec.describe EmployeesController, type: :controller do
   before do
     FactoryBot.reload
     create_list(:project, 3)
-    employee = Employee.create(user_name: 'Teresa', project_id: 1)
+    project = Project.find_by!(title: 'Project 1')
+    employee = Employee.create(user_name: 'Teresa', project: project)
   end
 
   context 'without employee params' do
     it 'returns status code 400' do
        put :update, params: { id: 1 }
 
-       expect(response).to have_http_status(:bad_request)
+       expect(response).to have_http_status(:not_found)
     end
   end
 

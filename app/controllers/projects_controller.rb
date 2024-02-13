@@ -36,7 +36,7 @@ class ProjectsController < ApplicationController
   # Updates the information of an project based on the provided `id`.
   def update
     project = Project.find(params[:id])
-    title = params.require(:title)
+    title = params[:title]
 
     if project.update(title: title)
       render status: :ok, json: project
