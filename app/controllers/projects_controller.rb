@@ -17,7 +17,7 @@ class ProjectsController < ApplicationController
     if project.save
       render status: :ok, json: project
     else
-      render status: :unprocessable_entity, json: { error: 'Project was not created!' }
+      render status: :unprocessable_entity, json: { error: project.errors.full_messages.to_sentence }
     end
   end
 
@@ -36,12 +36,12 @@ class ProjectsController < ApplicationController
   # Updates the information of an project based on the provided `id`.
   def update
     project = Project.find(params[:id])
-    title = params.require(:title)
+    title = params[:title]
 
     if project.update(title: title)
       render status: :ok, json: project
     else
-      render status: :unprocessable_entity, json: { error: 'Project was not updated!' }
+      render status: :unprocessable_entity, json: { error: project.errors.full_messages.to_sentence }
     end
   end
 end

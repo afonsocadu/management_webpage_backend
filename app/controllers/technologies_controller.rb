@@ -23,12 +23,12 @@ class TechnologiesController < ApplicationController
 
   def update
     technology = Technology.find(params[:id])
-    name = params.require(:name)
+    name = params[:name]
 
     if technology.update(name: name)
       render status: :ok, json: technology
     else
-      render status: :unprocessable_entity, json: { error: 'Technology was not updated!' }
+      render status: :unprocessable_entity, json: { error: technology.errors.full_messages.to_sentence }
     end
   end
 
@@ -44,7 +44,7 @@ class TechnologiesController < ApplicationController
     if technology.save
       render status: :ok, json: technology
     else
-      render status: :unprocessable_entity, json: { error: 'Technology was not created!' }
+      render status: :unprocessable_entity, json: { error: technology.errors.full_messages.to_sentence }
     end
   end
 end
