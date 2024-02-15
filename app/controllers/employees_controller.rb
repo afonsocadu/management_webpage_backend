@@ -25,9 +25,15 @@ class EmployeesController < ApplicationController
 
     project_title = params[:project]
 
-    project= Project.find_by!(title: project_title)
+    if project_title
+      project= Project.find_by!(title: project_title)
 
-    if employee.update(user_name: params[:user_name], project: project)
+      project_updated = { user_name: params[:user_name], project: project }
+    else
+      project_updated = { user_name: params[:user_name] }
+    end
+
+    if employee.update(project_updated)
       render status: :ok, json: employee
     else
       render status: :unprocessable_entity, json: { error: 'Employee was not updated!' }
