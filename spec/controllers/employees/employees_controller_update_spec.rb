@@ -11,10 +11,10 @@ RSpec.describe EmployeesController, type: :controller do
   end
 
   context 'without employee params' do
-    it 'returns status code 400' do
+    it 'returns status code 422' do
        put :update, params: { id: 1 }
 
-       expect(response).to have_http_status(:not_found)
+       expect(response).to have_http_status(:unprocessable_entity)
     end
   end
 
