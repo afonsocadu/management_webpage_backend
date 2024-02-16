@@ -31,18 +31,35 @@ class EmployeesController < ApplicationController
   # Updates the information of an employee based on the provided `id`.
   def update
     employee = Employee.find(params[:id])
+    data_updated = { }
 
-    project_title = params[:project]
+    if params[:technology]
+      technologies = params[:technology].map { |tech| Technology.find_by(name: tech) }
 
-    if project_title
-      project= Project.find_by!(title: project_title)
-
-      project_updated = { user_name: params[:user_name], project: project }
+      data_updated[:technologies] = technologies
     else
-      project_updated = { user_name: params[:user_name] }
+      data_updated[:technologies] = employee.technologies.pluck(:name)
     end
 
-    if employee.update(project_updated)
+    if params[:project]
+      project = Project.find_by(title: params[:project])
+
+      data_updated[:project] = project
+    else
+      project_title = employee.project.title
+
+      data_updated[:project] = Project.find_by!(title: project_title)
+    end
+
+    if params[:user_name]
+      user_name = params[:user_name]
+
+      data_updated[:user_name] = user_name
+    else
+      data_updated[:user_name] = employee.user_name
+    end
+
+    if employee.update(data_updated)
       render status: :ok, json: employee
     else
       render status: :unprocessable_entity, json: { error: 'Employee was not updated!' }
@@ -61,7 +78,7 @@ class EmployeesController < ApplicationController
 
     employee = Employee.new(
       user_name: user_name,
-      project_id: project.id,
+      project: project
     )
 
     employee.technologies << technology
