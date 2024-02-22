@@ -3,7 +3,6 @@
 require 'rails_helper'
 
 RSpec.describe EmployeesController, type: :controller do
-  let(:endpoint) { 'app/controllers/employees_controller' }
 
   before do
     project = Project.create(title: 'Indirect')
@@ -31,7 +30,7 @@ RSpec.describe EmployeesController, type: :controller do
       expect(response).to have_http_status(:ok)
     end
 
-    it 'destroys the workspace' do
+    it 'destroys the employee' do
       delete :destroy, params: { id: '1' }
 
       expect(Employee.all.size).to eq(0)

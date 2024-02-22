@@ -10,21 +10,42 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20_231_118_173_221) do
-  create_table 'employees', force: :cascade do |t|
-    t.string 'user_name'
-    t.text 'technologies'
-    t.integer 'project_id'
-    t.datetime 'created_at', precision: 6, null: false
-    t.datetime 'updated_at', precision: 6, null: false
-    t.index ['project_id'], name: 'index_employees_on_project_id'
+ActiveRecord::Schema.define(version: 2024_01_15_224444) do
+
+  create_table "employees", force: :cascade do |t|
+    t.string "user_name"
+    t.text "technologies"
+    t.integer "project_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["project_id"], name: "index_employees_on_project_id"
   end
 
-  create_table 'projects', force: :cascade do |t|
-    t.string 'title'
-    t.datetime 'created_at', precision: 6, null: false
-    t.datetime 'updated_at', precision: 6, null: false
+  create_table "employees_technologies", id: false, force: :cascade do |t|
+    t.integer "employee_id"
+    t.integer "technology_id"
+    t.index ["employee_id"], name: "index_employees_technologies_on_employee_id"
+    t.index ["technology_id"], name: "index_employees_technologies_on_technology_id"
   end
 
-  add_foreign_key 'employees', 'projects'
+  create_table "projects", force: :cascade do |t|
+    t.string "title"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "projects_technologies", id: false, force: :cascade do |t|
+    t.integer "project_id"
+    t.integer "technology_id"
+    t.index ["project_id"], name: "index_projects_technologies_on_project_id"
+    t.index ["technology_id"], name: "index_projects_technologies_on_technology_id"
+  end
+
+  create_table "technologies", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  add_foreign_key "employees", "projects"
 end

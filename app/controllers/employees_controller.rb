@@ -23,11 +23,17 @@ class EmployeesController < ApplicationController
   def update
     employee = Employee.find(params[:id])
 
-    title = params.require(:project)
+    project_title = params[:project]
 
-    project_id = Project.find_by!(title: title)&.id
+    if project_title
+      project= Project.find_by!(title: project_title)
 
-    if employee.update(user_name: params[:user_name], project_id: project_id)
+      project_updated = { user_name: params[:user_name], project: project }
+    else
+      project_updated = { user_name: params[:user_name] }
+    end
+
+    if employee.update(project_updated)
       render status: :ok, json: employee
     else
       render status: :unprocessable_entity, json: { error: 'Employee was not updated!' }
@@ -36,10 +42,10 @@ class EmployeesController < ApplicationController
 
   # Creates a new employee based on the provided parameters,
   def create
-    title = params.require(:project)
+    project_title = params.require(:project)
     user_name = params.require(:user_name)
 
-    project = Project.find_by(title: title)
+    project = Project.find_by(title: project_title)
 
 
     employee = Employee.new(
