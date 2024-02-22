@@ -31,32 +31,18 @@ class EmployeesController < ApplicationController
   # Updates the information of an employee based on the provided `id`.
   def update
     employee = Employee.find(params[:id])
-    data_updated = { }
+    data_updated = params.permit(:user_name)
 
     if params[:technology]
       technologies = params[:technology].map { |tech| Technology.find_by(name: tech) }
 
       data_updated[:technologies] = technologies
-    else
-      data_updated[:technologies] = employee.technologies.pluck(:name)
     end
 
     if params[:project]
       project = Project.find_by(title: params[:project])
 
       data_updated[:project] = project
-    else
-      project_title = employee.project.title
-
-      data_updated[:project] = Project.find_by!(title: project_title)
-    end
-
-    if params[:user_name]
-      user_name = params[:user_name]
-
-      data_updated[:user_name] = user_name
-    else
-      data_updated[:user_name] = employee.user_name
     end
 
     if employee.update(data_updated)
