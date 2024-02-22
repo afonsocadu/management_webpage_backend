@@ -14,7 +14,6 @@ ActiveRecord::Schema.define(version: 2024_01_15_224444) do
 
   create_table "employees", force: :cascade do |t|
     t.string "user_name"
-    t.text "technologies"
     t.integer "project_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
