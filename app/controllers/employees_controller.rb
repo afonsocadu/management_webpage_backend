@@ -54,27 +54,23 @@ class EmployeesController < ApplicationController
 
   # Creates a new employee based on the provided parameters,
   def create
-    project_title = params.require(:project)
-    user_name = params.require(:user_name)
+    data_params = { user_name: params.require(:user_name) }
+
+    if params[:project]
+      project = Project.find_by(title: params[:project])
+      data_params = { user_name: params.require(:user_name), project: project }
+    end
+
+    employee = Employee.new(data_params)
+
     technology_name = params.require(:technologies)
-
-    project = Project.find_by(title: project_title)
-
     technology = Technology.find_by(name: technology_name)
-
-    employee = Employee.new(
-      user_name: user_name,
-      project: project
-    )
 
     employee.technologies << technology
 
     if employee.save
       render status: :ok, json: {
-        id: employee.id,
-        user_name: employee.user_name,
-        title: employee.project.title,
-        technologies: employee.technologies.pluck(:name)
+        employee: employee
       }
     else
       render status: :unprocessable_entity, json: { error: 'Employee was not created!' }
