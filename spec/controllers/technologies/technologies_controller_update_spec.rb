@@ -28,7 +28,7 @@ RSpec.describe TechnologiesController, type: :controller do
   end
 
   context 'with valid technology param' do
-    technology_to_update = { id: 1, name: 'Angular' }
+    technology_to_update = { id: 1, name: 'Python' }
 
     it 'returns 200' do
       put :update, params: technology_to_update, as: :json
@@ -40,7 +40,7 @@ RSpec.describe TechnologiesController, type: :controller do
       put :update, params: technology_to_update, as: :json
 
       json_response = JSON.parse(response.body)
-      expect(json_response['name']).to eq('Angular')
+      expect(json_response['name']).to eq('Python')
     end
   end
 end

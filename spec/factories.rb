@@ -8,4 +8,8 @@ FactoryBot.define do
   factory :project do
     sequence(:title) { |n| "Project #{n}" }
   end
+
+  factory :employee do
+    sequence(:user_name) { |n| "Name #{n}" }
+  end
 end

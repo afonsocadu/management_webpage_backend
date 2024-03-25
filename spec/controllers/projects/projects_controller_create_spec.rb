@@ -4,7 +4,12 @@ require 'rails_helper'
 
 RSpec.describe ProjectsController, type: :controller do
   context 'When all params are valid' do
-    let(:params) { { title: 'Direct' } }
+    before do
+      technologies = Technology.create(name: 'Rails')
+      Employee.create(user_name: 'Amaral', technologies: [technologies])
+    end
+
+    let(:params) { { title: 'Direct', technologies: ['Rails'], employees: ['Amaral'] } }
 
     it 'returns status code 200' do
       post :create, params: params, as: :json
