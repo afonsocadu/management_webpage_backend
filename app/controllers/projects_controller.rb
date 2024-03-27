@@ -23,7 +23,7 @@ class ProjectsController < ApplicationController
     title = params.require(:title)
     project = Project.new(title: title)
 
-    validate_employee_technologies(params)
+    validate_create_employee_technologies(params)
 
     technologies_names = params.require(:technologies)
 
@@ -54,7 +54,7 @@ class ProjectsController < ApplicationController
   end
 
   def update_employees
-    validate_employee_technologies(params)
+    validate_update_employee_technologies(params)
 
     project = Project.find(params[:projectId])
     updated_data = params[:updatedData]
@@ -70,7 +70,7 @@ class ProjectsController < ApplicationController
       project.employees = employee_to_update
 
       if project.save
-        render status: :ok, json: project.employees
+        render status: :ok, json: project
       else
         render status: :unprocessable_entity, json: { error: 'Project was not updated!' }
       end
@@ -130,19 +130,40 @@ class ProjectsController < ApplicationController
     end
   end
 
-  def validate_employee_technologies(params)
-    updated_data = params[:updatedData]
-    employees = updated_data[:employees]
+  def validate_create_employee_technologies(params)
+    employees = params[:employees]
 
-    return unless employees.present?
+    unless employees.nil?
+      errors = []
 
-    if employees.present?
+      employees.each do |employee|
+        employee_technologies = Employee.find_by(user_name: employee).technologies.pluck(:name)
+
+        project_technologies = params[:technologies]
+
+        unless employee_technologies.any? { |tech| project_technologies.include?(tech) }
+          render json: { errors: errors }, status: :bad_request
+          return
+        end
+      end
+    end
+  end
+
+  def validate_update_employee_technologies(params)
+    byebug
+    data = params[:updatedData]
+
+    unless data.nil?
+
+      employees = data.require(:employees)
+      errors = []
+
       employees.each do |employee|
         employee_technologies = Employee.find_by(user_name: employee).technologies.pluck(:name)
 
         project_technologies = Project.find_by(id: params[:projectId]).technologies.pluck(:name)
         unless employee_technologies.any? { |tech| project_technologies.include?(tech) }
-          render json: { error: 'Employees has not the technology necessary' }, status: :bad_request
+          render json: { errors: errors }, status: :bad_request
           return
         end
       end

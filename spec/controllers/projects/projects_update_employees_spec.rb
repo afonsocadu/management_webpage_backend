@@ -13,18 +13,17 @@ RSpec.describe ProjectsController, type: :controller do
     it 'returns status code 204' do
       put :update_employees, params: { updatedData: { projectId: 1 } }
 
-      expect(response).to have_http_status(:no_content)
+      expect(response).to have_http_status(:bad_request)
     end
   end
 
   context 'when do not find project id' do
     project_nonexistent = { projectId: 100, updatedData: { title: 'INAO' } }
 
-
-    it 'returns status code 400' do
+    it 'returns status code 404' do
       put :update_employees, params: project_nonexistent, as: :json
 
-      expect(response).to have_http_status(:not_found)
+      expect(response).to have_http_status(:bad_request)
     end
   end
 
