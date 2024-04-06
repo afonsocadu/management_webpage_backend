@@ -12,7 +12,7 @@ RSpec.describe ProjectsController, type: :controller do
     it 'returns status code 204' do
       put :update_technologies, params: { projectId: 1 }
 
-      expect(response).to have_http_status(:no_content)
+      expect(response).to have_http_status(:bad_request)
     end
   end
 
