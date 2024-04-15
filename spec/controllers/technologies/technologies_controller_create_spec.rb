@@ -29,8 +29,3 @@ RSpec.describe TechnologiesController, type: :controller do
     end
   end
 end
-
-#Não percebo o motivo,mas eu tenho isso
-# Technology.all
-# #<ActiveRecord::Relation [#<Technology id: 1, name: "Rails", created_at: "2024-03-11 22:29:59.370454000 +0000", updated_at: "2024-03-11 22:29:59.370454000 +0000">, #<Technology id: 2, name: "Angular", created_at: "2024-03-11 22:30:44.728194000 +0000", updated_at: "2024-03-11 22:30:44.728194000 +0000">]>
-# (byebug)

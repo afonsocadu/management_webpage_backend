@@ -64,16 +64,15 @@ class EmployeesController < ApplicationController
     employee = Employee.new(data_params)
 
     technology_name = params.require(:technologies)
-    technology = Technology.find_by(name: technology_name)
-
-    employee.technologies << technology
+    technologies = Technology.where(name: technology_name)
+    employee.technologies << technologies
 
     if employee.save
       render status: :ok, json: {
         employee: employee
       }
     else
-      render status: :unprocessable_entity, json: { error: 'Employee was not created!' }
+      render status: :unprocessable_entity, json: { error: employee.errors.full_messages }
     end
   end
 end

@@ -5,7 +5,7 @@ require 'rails_helper'
 RSpec.describe ProjectsController, type: :controller do
 
   before do
-    Project.create(title: 'Indirect')
+    create(:project, title: 'Indirect')
   end
 
   context 'when provided project id does not exist' do

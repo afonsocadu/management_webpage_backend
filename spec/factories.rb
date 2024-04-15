@@ -2,14 +2,16 @@
 
 FactoryBot.define do
   factory :technology do
-    sequence(:name) { |n| "Name #{n}" }
+    name { 'Python' }
   end
 
   factory :project do
-    sequence(:title) { |n| "Project #{n}" }
+    title { 'Project X' }
+    technologies { [association(:technology)] }
   end
 
   factory :employee do
-    sequence(:user_name) { |n| "Name #{n}" }
+    user_name { 'Amaral' }
+    technologies { [association(:technology)] }
   end
 end

@@ -11,8 +11,7 @@ RSpec.describe ProjectsController, type: :controller do
     end
 
     it 'returns the right response' do
-      Project.create(title: 'Indirect')
-
+      create(:project, title: 'Indirect')
       get :index
 
       json_response = JSON.parse(response.body)

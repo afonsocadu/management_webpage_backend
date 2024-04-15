@@ -25,11 +25,9 @@ class ProjectsController < ApplicationController
 
     technologies_names = params.require(:technologies)
 
-    technologies_names.each do |technology|
-      technology = Technology.find_by(name: technology)
+    technologies = Technology.where(name: technologies_names)
 
-      project.technologies << technology
-    end
+    project.technologies << technologies
 
     if project.save
       render status: :ok, json: project
@@ -51,48 +49,48 @@ class ProjectsController < ApplicationController
 
   # Updates the employees associated with a project
   def update_employees
-    project_id = params.require(:projectId)
-    employees = params.dig(:updatedData, :employees)
-
-    validation = validate_employee(employees, project_id)
+    project_id = params.require(:project_id)
+    employees_name = params.dig(:updated_data, :employees)
 
     project = Project.find(project_id)
 
-    if validation
-      employee_to_update = []
+    employee_to_update = []
+    employees_not_updated = []
 
-      employees.each do |employee|
-        employee_to_update << Employee.find_by(user_name: employee )
+    unless employees_name.nil?
+      employees_name.each do |employee_name|
+        employee = Employee.find_by(user_name: employee_name)
+        validation = employee_valid?(employee, project)
+
+        if validation
+          employee_to_update << employee
+        else
+          employees_not_updated << employee
+        end
       end
+    end
 
-      project.employees = employee_to_update
-
-      if project.save
-        render status: :ok, json: project.employees
-      else
-        render status: :unprocessable_entity, json: { error: 'Project was not updated!' }
-      end
+    if project.update(employees: employee_to_update)
+      render status: :ok, json: { updated_employees: project.employees, employees_not_updated: employees_not_updated }
     else
-      render status: :unprocessable_entity, json: { error: 'Validation failed!' }
+      render status: :unprocessable_entity, json: { error: 'Project was not updated!' }
     end
   end
 
   # Updates the technologies associated with a project
   def update_technologies
-    project = Project.find(params[:projectId])
-    updated_data = params.require(:updatedData)
+    project = Project.find(params[:project_id])
+    updated_data = params.require(:updated_data)
 
     technologies_to_update = []
 
-    technologies = updated_data[:technologies]
+    technologies_names = updated_data[:technologies]
 
-    technologies.each do |technology|
-      technology = Technology.find_by(name: technology)
+    technologies = Technology.where(name: technologies_names)
 
-      technologies_to_update << technology
-    end
+    technologies_to_update << technologies
 
-    if project.update(technologies: technologies_to_update)
+    if project.update(technologies: technologies_to_update.flatten)
       render status: :ok, json: project.technologies
     else
       render status: :unprocessable_entity, json: { error: 'Technologies was not updated!' }
@@ -100,12 +98,11 @@ class ProjectsController < ApplicationController
   end
 
   # Updates the title of the project
-  def update_title
-    project = Project.find(params[:projectId])
-    updated_title = params.require(:updatedData)[:projectName]
-    project.title = updated_title
+  def update
+    project = Project.find(params[:id])
+    project_title = params.require(:updated_data)[:project_name]
 
-    if project.update(title: updated_title)
+    if project.update(title: project_title)
       render status: :ok, json: project
     else
       render status: :unprocessable_entity, json: { error: 'Title was not updated!' }
@@ -115,16 +112,14 @@ class ProjectsController < ApplicationController
   private
 
   # Verify if the associated employee has the necessary technology.
-  def validate_employee(employees, project_id = nil)
-    return true if project_id.nil? || employees.empty?
+  def employee_valid?(employee, project)
+    return false if project.nil? || employee.nil?
 
-    project_technologies = Project.find_by(id: params[:projectId]).technologies.pluck(:name)
+    project_technologies = project.technologies.pluck(:name)
 
-    employees.each do |employee|
-      employee_technologies = Employee.find_by(user_name: employee).technologies.pluck(:name)
+    employee_technologies = employee.technologies.pluck(:name)
 
-      return true if employee_technologies.any? { |tech| project_technologies.include?(tech) }
-    end
+    return true if employee_technologies.any? { |tech| project_technologies.include?(tech) }
 
     false
   end

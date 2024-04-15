@@ -5,12 +5,12 @@ require 'rails_helper'
 RSpec.describe TechnologiesController, type: :controller do
   before do
     FactoryBot.reload
-    create_list(:technology, 2)
-    technology = Technology.create(name: 'Rails')
+    create(:technology, name: 'Python')
+    create(:technology, name: 'Rails')
   end
 
   context 'without technologies params' do
-    it 'returns status code 400' do
+    it 'returns status code 422' do
       put :update, params: { id: 1 }
 
       expect(response).to have_http_status(:unprocessable_entity)
@@ -20,7 +20,7 @@ RSpec.describe TechnologiesController, type: :controller do
   context 'when do not find technology param' do
     technology_nonexistent = { id: 100, name: 'Angular' }
 
-    it 'returns status code 400' do
+    it 'returns status code 404' do
       put :update, params: technology_nonexistent, as: :json
 
       expect(response).to have_http_status(:not_found)

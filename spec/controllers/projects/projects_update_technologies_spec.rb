@@ -4,15 +4,15 @@ require 'rails_helper'
 
 RSpec.describe ProjectsController, type: :controller do
   before do
-    technologies = Technology.create(name: 'Rails')
-    Project.create(title: 'Project X', technologies: [technologies])
+    technologies = create(:technology, name: 'Rails')
+    create(:project, title: 'Project X', technologies: [technologies])
   end
 
   context 'without projects params' do
-    it 'returns status code 204' do
+    it 'returns status code 404' do
       put :update_technologies, params: { projectId: 1 }
 
-      expect(response).to have_http_status(:bad_request)
+      expect(response).to have_http_status(:not_found )
     end
   end
 
@@ -28,10 +28,10 @@ RSpec.describe ProjectsController, type: :controller do
 
   context 'with valid project params' do
     before do
-      Technology.create(name: 'Python')
+      create(:technology, name: 'Python')
     end
 
-    project_to_update = { projectId: 1, updatedData: { title: 'Project Y', technologies: ['Python'] } }
+    project_to_update = { project_id: 1, updated_data: { title: 'Project Y', technologies: ['Python'] } }
 
     it 'returns 200' do
       put :update_technologies, params: project_to_update, as: :json

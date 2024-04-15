@@ -11,7 +11,7 @@ RSpec.describe TechnologiesController, type: :controller do
     end
 
     it 'returns the right response' do
-      Technology.create(name: 'Rails')
+      create(:technology, name: 'Rails')
 
       get :index
 

@@ -5,8 +5,8 @@ require 'rails_helper'
 RSpec.describe ProjectsController, type: :controller do
   context 'When all params are valid' do
     before do
-      technologies = Technology.create(name: 'Rails')
-      Employee.create(user_name: 'Amaral', technologies: [technologies])
+      technologies = create(:technology, name: 'Rails')
+      create(:employee, user_name: 'Amaral', technologies: [technologies])
     end
 
     let(:params) { { title: 'Direct', technologies: ['Rails'], employees: ['Amaral'] } }

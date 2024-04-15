@@ -5,7 +5,7 @@ require 'rails_helper'
 RSpec.describe TechnologiesController, type: :controller do
 
   before do
-    Technology.create(name: 'Rails')
+    create(:technology, name: 'Rails')
   end
 
   context 'when provdided technology id does not exist' do
