@@ -24,13 +24,13 @@ gem 'rack-cors'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.4', require: false
-gem 'database_cleaner'
 
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
 # gem 'rack-cors'
 
 group :development, :test do
   group :test do
+    gem 'database_cleaner'
     gem 'shoulda-matchers'
   end
 
