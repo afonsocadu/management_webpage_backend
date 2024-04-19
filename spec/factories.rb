@@ -2,7 +2,7 @@
 
 FactoryBot.define do
   factory :technology do
-    name { 'Python' }
+    sequence(:name) { |n| "Technology-#{n}" }
   end
 
   factory :project do

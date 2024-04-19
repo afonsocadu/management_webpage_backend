@@ -32,7 +32,7 @@ class ProjectsController < ApplicationController
     if project.save
       render status: :ok, json: project
     else
-      render status: :unprocessable_entity, json: { error: project.errors.full_messages.to_sentence }
+      render status: :unprocessable_entity, json: { error: "The project '#{project.title}' was not created." }
     end
   end
 
@@ -43,37 +43,34 @@ class ProjectsController < ApplicationController
     if project.destroy
       render json: { message: 'Project deleted successfully!' }
     else
-      render json: { error: 'An error occurred when trying to delete the project', details: project.errors.full_messages }, status: :unprocessable_entity
+      render json: { error: "An error occurred when trying to delete the project #{project.title}" }, status: :unprocessable_entity
     end
   end
 
   # Updates the employees associated with a project
   def update_employees
     project_id = params.require(:project_id)
-    employees_name = params.dig(:updated_data, :employees)
+    employees_name = params.dig(:updated_data, :employees) || []
 
     project = Project.find(project_id)
 
     employee_to_update = []
     employees_not_updated = []
 
-    unless employees_name.nil?
-      employees_name.each do |employee_name|
-        employee = Employee.find_by(user_name: employee_name)
-        validation = employee_valid?(employee, project)
+    employees_name.each do |employee_name|
+      employee = Employee.find_by(user_name: employee_name)
 
-        if validation
+      if employee_valid?(employee, project)
           employee_to_update << employee
-        else
-          employees_not_updated << employee
-        end
+      else
+        employees_not_updated << employee
       end
     end
 
     if project.update(employees: employee_to_update)
       render status: :ok, json: { updated_employees: project.employees, employees_not_updated: employees_not_updated }
     else
-      render status: :unprocessable_entity, json: { error: 'Project was not updated!' }
+      render status: :unprocessable_entity, json: { error: "The employees were not associated with the project '#{project.title}'." }
     end
   end
 
@@ -93,19 +90,19 @@ class ProjectsController < ApplicationController
     if project.update(technologies: technologies_to_update.flatten)
       render status: :ok, json: project.technologies
     else
-      render status: :unprocessable_entity, json: { error: 'Technologies was not updated!' }
+      render status: :unprocessable_entity, json: { error: "The technologies were not associated with the project '#{project.title}'." }
     end
   end
 
   # Updates the title of the project
   def update
     project = Project.find(params[:id])
-    project_title = params.require(:updated_data)[:project_name]
+    project_title = params.require(:updated_data).permit(:title)
 
-    if project.update(title: project_title)
+    if project.update(project_title)
       render status: :ok, json: project
     else
-      render status: :unprocessable_entity, json: { error: 'Title was not updated!' }
+      render status: :unprocessable_entity, json: { error: "The title was not associated with the project '#{project.title}'." }
     end
   end
 
@@ -119,8 +116,6 @@ class ProjectsController < ApplicationController
 
     employee_technologies = employee.technologies.pluck(:name)
 
-    return true if employee_technologies.any? { |tech| project_technologies.include?(tech) }
-
-    false
+    return employee_technologies.any? { |tech| project_technologies.include?(tech) }
   end
 end

@@ -3,8 +3,9 @@
 require 'rails_helper'
 
 RSpec.describe ProjectsController, type: :controller do
+  let(:technologies) { create(:technology, name: 'Rails') }
+
   before do
-    technologies = create(:technology, name: 'Rails')
     create(:project, title: 'Project X', technologies: [technologies])
   end
 
@@ -17,7 +18,7 @@ RSpec.describe ProjectsController, type: :controller do
   end
 
   context 'when do not find project id' do
-    project_nonexistent = { id: 100, title: 'INAO' }
+    let(:project_nonexistent) { { id: 100, title: 'INAO' } }
 
     it 'returns status code 400' do
       put :update_technologies, params: project_nonexistent, as: :json
@@ -27,11 +28,11 @@ RSpec.describe ProjectsController, type: :controller do
   end
 
   context 'with valid project params' do
+    let(:project_to_update) { { project_id: 1, updated_data: { title: 'Project Y', technologies: ['Python'] } } }
+
     before do
       create(:technology, name: 'Python')
     end
-
-    project_to_update = { project_id: 1, updated_data: { title: 'Project Y', technologies: ['Python'] } }
 
     it 'returns 200' do
       put :update_technologies, params: project_to_update, as: :json

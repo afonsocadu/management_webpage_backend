@@ -4,9 +4,10 @@ require 'rails_helper'
 
 RSpec.describe ProjectsController, type: :controller do
   context 'When all params are valid' do
+    let(:technologies) { create_list(:technology, 2) }
+
     before do
-      technologies = create(:technology, name: 'Rails')
-      create(:employee, user_name: 'Amaral', technologies: [technologies])
+      create(:employee, user_name: 'Amaral', technologies: technologies)
     end
 
     let(:params) { { title: 'Direct', technologies: ['Rails'], employees: ['Amaral'] } }

@@ -3,11 +3,11 @@
 require 'rails_helper'
 
 RSpec.describe EmployeesController, type: :controller do
+  let(:technologies) { create_list(:technology, 2) }
+  let(:project) { create(:project, title: 'Indirect', technologies: technologies) }
 
   before do
-    tecnology = create(:technology, name: 'Rails')
-    project = create(:project, title: 'Indirect', technologies: [tecnology])
-    create(:employee, user_name: 'Amaral', project: project, technologies: [tecnology])
+    create(:employee, user_name: 'Amaral', project: project, technologies: technologies)
   end
 
   context 'when provided employee id does not exist' do

@@ -3,10 +3,11 @@
 require 'rails_helper'
 
 RSpec.describe ProjectsController, type: :controller do
+  let(:technologies) { [create(:technology, name: 'Rails')] }
+
   before do
-    technologies = create(:technology, name: 'Rails')
-    create(:project, title: 'Project X', technologies: [technologies])
-    create(:employee, user_name: 'Amaral', technologies: [technologies])
+    create(:project, title: 'Project X', technologies: technologies)
+    create(:employee, user_name: 'Amaral', technologies: technologies)
   end
 
   context 'without mandatory parameters' do
@@ -28,18 +29,19 @@ RSpec.describe ProjectsController, type: :controller do
   end
 
   context 'with valid project params' do
+    let(:technologies) { [create(:technology, name: 'Python')] }
     before do
-      technologies = create(:technology, name: 'Python')
-      create(:employee, user_name: 'Cadu', technologies: [technologies])
-      create(:project, title: 'Project Y', technologies: [technologies])
+      create(:employee, user_name: 'Cadu', technologies: technologies)
+      create(:project, title: 'Project Y', technologies: technologies)
     end
 
     context 'When the user lacks the required technologies for the project' do
+      let(:technologies_employee) { create(:technology, name: 'React') }
+      let(:employee_wrong_technologies) { { project_id: 2, updated_data: { title: 'Project Y', employees: ['Cardador'] } } }
+
       before do
-        technologies_employee = create(:technology, name: 'React')
         create(:employee, user_name: 'Cardador', technologies: [technologies_employee] )
       end
-      employee_wrong_technologies = { project_id: 2, updated_data: { title: 'Project Y', employees: ['Cardador'] } }
 
       it 'returns the not updated employee' do
         put :update_employees, params: employee_wrong_technologies, as: :json
@@ -50,7 +52,7 @@ RSpec.describe ProjectsController, type: :controller do
       end
     end
 
-    project_to_update = { project_id: 2, updated_data: { title: 'Project Y', technologies: ['Python'], employees: ['Cadu'] } }
+    let(:project_to_update) { { project_id: 2, updated_data: { title: 'Project Y', technologies: ['Python'], employees: ['Cadu'] } } }
 
     it 'returns 200' do
       put :update_employees, params: project_to_update, as: :json

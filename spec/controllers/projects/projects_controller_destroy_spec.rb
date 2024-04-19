@@ -38,12 +38,13 @@ RSpec.describe ProjectsController, type: :controller do
 
   context 'when deletion fails' do
     it 'returns an error response' do
-      allow(Project)
-        .to receive(:find)
-              .and_return(instance_double(Project, destroy: false,
-                                          errors: instance_double(ActiveModel::Errors, full_messages: [])))
+      technology = create(:technology, name: 'Angular')
+      project = create(:project, technologies: [technology], id: 50)
 
-      delete :destroy, params: { id: 1 }
+      allow(Project).to receive(:find).with(any_args).and_return(project)
+      allow(project).to receive(:destroy).and_return(false)
+
+      delete :destroy, params: { id: 50 }
 
       expect(response).to have_http_status(:unprocessable_entity)
     end
