@@ -27,7 +27,7 @@ RSpec.describe EmployeesController, type: :controller do
     end
   end
 
-  context 'when does not exist employee to list' do
+  context 'when does not exist employees to list' do
     it 'returns 200' do
       get :index
 

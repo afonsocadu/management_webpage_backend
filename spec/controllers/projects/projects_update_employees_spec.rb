@@ -43,7 +43,7 @@ RSpec.describe ProjectsController, type: :controller do
         create(:employee, user_name: 'Cardador', technologies: [technologies_employee] )
       end
 
-      it 'returns the not updated employee' do
+      it 'returns the not updated employees' do
         put :update_employees, params: employee_wrong_technologies, as: :json
         json_response = JSON.parse(response.body)
 
@@ -60,7 +60,7 @@ RSpec.describe ProjectsController, type: :controller do
       expect(response).to have_http_status(:ok)
     end
 
-    it 'returns the updated employee' do
+    it 'returns the updated employees' do
       put :update_employees, params: project_to_update, as: :json
 
       json_response = JSON.parse(response.body)

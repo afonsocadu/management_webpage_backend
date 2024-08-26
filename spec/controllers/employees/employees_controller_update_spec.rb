@@ -11,7 +11,7 @@ RSpec.describe EmployeesController, type: :controller do
     create(:employee, user_name: 'Teresa', project: project, technologies: technologies)
   end
 
-  context 'without employee params' do
+  context 'without employees params' do
     it 'returns status code 422' do
        put :update, params: { id: 1 }
 
@@ -19,7 +19,7 @@ RSpec.describe EmployeesController, type: :controller do
     end
   end
 
-  context 'When do not find employee id' do
+  context 'When do not find employees id' do
     let(:employee_nonexistent) { { id: 100, user_name: 'Cadu', project: 'Project 1' } }
 
     it 'returns status code 404' do
@@ -29,7 +29,7 @@ RSpec.describe EmployeesController, type: :controller do
     end
   end
 
-  context 'with valid employee params' do
+  context 'with valid employees params' do
     let(:employee_to_update) { { id: 1, user_name: 'Amaral', project: 'Project 2', technology: ['Technology-1'] } }
 
     before do
@@ -42,7 +42,7 @@ RSpec.describe EmployeesController, type: :controller do
       expect(response).to have_http_status(:ok)
     end
 
-    it 'returns the updated employee' do
+    it 'returns the updated employees' do
       put :update, params: employee_to_update, as: :json
 
       json_response = JSON.parse(response.body)

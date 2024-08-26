@@ -20,7 +20,6 @@ class TechnologiesController < ApplicationController
   end
 
   # Updates a tecnology based on the provided name
-
   def update
     technology = Technology.find(params[:id])
 

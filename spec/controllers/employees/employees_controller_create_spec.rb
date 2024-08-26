@@ -39,7 +39,7 @@ RSpec.describe EmployeesController, type: :controller do
     end
   end
 
-  context 'without employee params' do
+  context 'without employees params' do
     let(:params) { {} }
 
     it 'returns status code 400' do

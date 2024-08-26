@@ -7,7 +7,7 @@ RSpec.describe Employee, type: :model do
     it { is_expected.to belong_to(:project).optional }
     it { is_expected.to have_and_belong_to_many(:technologies) }
 
-    it 'has factory that produces a valid employee' do
+    it 'has factory that produces a valid employees' do
       employee = create(:employee)
 
       expect(employee).to be_valid
@@ -18,17 +18,17 @@ RSpec.describe Employee, type: :model do
     let!(:project) { create(:project, technologies: technologies) }
     let(:employee_right_technologies) { create(:employee, technologies: technologies) }
 
-      context 'employee has the required technology' do
-        it 'should return the right employee' do
+      context 'employees has the required technology' do
+        it 'should return the right employees' do
           expect(Employee.can_be_associated_to_project(project.title)).to eq([employee_right_technologies])
         end
       end
 
-      context 'employee has not the required technology' do
+      context 'employees has not the required technology' do
         let!(:wrong_technologies) { create_list(:technology, 2) }
         let(:employee_wrong_technologies) { create(:employee, technologies: wrong_technologies) }
 
-        it 'should return the right employee' do
+        it 'should return the right employees' do
           expect(Employee.can_be_associated_to_project(project.title)).not_to eq([employee_wrong_technologies])
         end
       end

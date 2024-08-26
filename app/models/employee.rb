@@ -10,3 +10,4 @@ class Employee < ApplicationRecord
     joins(:technologies).where(technologies: { id: project.technologies.ids }).distinct
   end
 end
+#Passar para scope

@@ -40,7 +40,7 @@ RSpec.describe ProjectsController, type: :controller do
       expect(response).to have_http_status(:ok)
     end
 
-    it 'returns the updated employee' do
+    it 'returns the updated employees' do
       put :update_technologies, params: project_to_update, as: :json
 
       json_response = JSON.parse(response.body)

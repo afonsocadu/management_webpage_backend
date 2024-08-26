@@ -2,24 +2,14 @@ class ProjectsController < ApplicationController
 
   # Returns a list of projects with specific information
   def index
-    projects = Project.includes(:employees)
-
-    projects_data = projects.map do |project|
-       {
-         id: project.id,
-         title: project.title,
-         associated_employees: project.employees.pluck(:user_name),
-         employees_available: Employee.can_be_associated_to_project(project.title).pluck(:user_name),
-         technologies: project.technologies.pluck(:name)
-       }
-    end
+    projects_data = Projects::Index.new.call
 
     render status: 200,
            json: projects_data
   end
 
   # Creates a new project based on the provided parameters,
-  def create
+  def create #Aqui acredito que é muito simples para criar um serviço.
     title = params.require(:title)
     project = Project.new(title: title)
 
@@ -37,7 +27,7 @@ class ProjectsController < ApplicationController
   end
 
   # Deletes an project based on the provided `id`.
-  def destroy
+  def destroy #Aqui acredito que é muito simples para criar um serviço.
     project = Project.find(params[:id])
 
     if project.destroy
@@ -50,25 +40,15 @@ class ProjectsController < ApplicationController
   # Updates the employees associated with a project
   def update_employees
     project_id = params.require(:project_id)
+
     employees_name = params.dig(:updated_data, :employees) || []
 
     project = Project.find(project_id)
 
-    employee_to_update = []
-    employees_not_updated = []
+    employees = Projects::UpdateEmployees.new(employees_name, project).call
 
-    employees_name.each do |employee_name|
-      employee = Employee.find_by(user_name: employee_name)
-
-      if employee_valid?(employee, project)
-          employee_to_update << employee
-      else
-        employees_not_updated << employee
-      end
-    end
-
-    if project.update(employees: employee_to_update)
-      render status: :ok, json: { updated_employees: project.employees, employees_not_updated: employees_not_updated }
+    if project.update(employees: employees[:employee_to_update])
+      render status: :ok, json: { updated_employees: project.employees, employees_not_updated: employees[:employees_not_updated=] }
     else
       render status: :unprocessable_entity, json: { error: "The employees were not associated with the project '#{project.title}'." }
     end
@@ -104,18 +84,5 @@ class ProjectsController < ApplicationController
     else
       render status: :unprocessable_entity, json: { error: "The title was not associated with the project '#{project.title}'." }
     end
-  end
-
-  private
-
-  # Verify if the associated employee has the necessary technology.
-  def employee_valid?(employee, project)
-    return false if project.nil? || employee.nil?
-
-    project_technologies = project.technologies.pluck(:name)
-
-    employee_technologies = employee.technologies.pluck(:name)
-
-    return employee_technologies.any? { |tech| project_technologies.include?(tech) }
   end
 end
