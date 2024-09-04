@@ -84,4 +84,30 @@ RSpec.configure do |config|
   # arbitrary gems may also be filtered via:
   # config.filter_gems_from_backtrace("gem name")
   config.include FactoryBot::Syntax::Methods
+
+  require 'devise'
+
+  #RSpec.configure do |config|
+    #config.include Devise::Test::ControllerHelpers, type: :controller
+    # end
+
+
+  #Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
+  # This file is copied to spec/ when you run 'rails generate rspec:install'
+  require 'spec_helper'
+  ENV['RAILS_ENV'] ||= 'test'
+  require_relative '../config/environment'
+  # Prevent database truncation if the environment is production
+  abort('The Rails environment is running in production mode!') if Rails.env.production?
+  require 'rspec/rails'
+  # ... omitted ...
+  Dir[Rails.root.join('spec', 'support', '**', '*.rb')].sort.each { |f| require f }
+
+  # ... omitted ...
+  RSpec.configure do |config|
+    # ... omitted ...
+
+    config.include Devise::Test::ControllerHelpers, type: :controller
+    config.extend ControllerMacros, type: :controller
+  end
 end

@@ -3,6 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe TechnologiesController, type: :controller do
+  login_user
 
   before do
     create(:technology, name: 'Rails')

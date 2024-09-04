@@ -14,4 +14,10 @@ FactoryBot.define do
     user_name { 'Amaral' }
     technologies { [association(:technology)] }
   end
+
+  factory :user do
+    sequence(:email) { |n| "user#{n}@example.com" }
+    password { '1234' }
+    password_confirmation{ '1234' }
+  end
 end

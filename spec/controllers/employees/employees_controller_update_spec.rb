@@ -3,6 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe EmployeesController, type: :controller do
+  login_user
   let(:technologies) { create_list(:technology, 2) }
   let(:project) { create(:project, title: 'Project 1', technologies: technologies) }
 

@@ -3,6 +3,8 @@
 require 'rails_helper'
 
 RSpec.describe ProjectsController, type: :controller do
+  login_user
+
   context 'When all params are valid' do
     let(:technologies) { create_list(:technology, 2) }
 

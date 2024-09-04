@@ -1,4 +1,5 @@
 class ProjectsController < ApplicationController
+  before_action :authenticate_user!
 
   # Returns a list of projects with specific information
   def index

@@ -1,4 +1,5 @@
 class EmployeesController < ApplicationController
+  before_action :authenticate_user!
 
   # Returns a list of employees with specific information
   def index
