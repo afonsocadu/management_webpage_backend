@@ -3,14 +3,16 @@
 require 'rails_helper'
 
 RSpec.describe EmployeesController, type: :controller do
+  login_user
+  let(:technologies) { create_list(:technology, 2) }
+  let(:project) { create(:project, title: 'Indirect', technologies: technologies) }
 
   before do
-    project = Project.create(title: 'Indirect')
-    Employee.create(user_name: 'Amaral', project: project)
+    create(:employee, user_name: 'Amaral', project: project, technologies: technologies)
   end
 
-  context 'when provided employee id does not exist' do
-    it 'does not destroy the employee' do
+  context 'when provided employees id does not exist' do
+    it 'does not destroy the employees' do
       expect do
         delete :destroy, params: { id: '2' }
       end.not_to change(Employee, :count)
@@ -23,14 +25,14 @@ RSpec.describe EmployeesController, type: :controller do
     end
   end
 
-  context 'when provided employee id does exist' do
+  context 'when provided employees id does exist' do
     it 'returns status code 200' do
       delete :destroy, params: { id: '1' }
 
       expect(response).to have_http_status(:ok)
     end
 
-    it 'destroys the employee' do
+    it 'destroys the employees' do
       delete :destroy, params: { id: '1' }
 
       expect(Employee.all.size).to eq(0)

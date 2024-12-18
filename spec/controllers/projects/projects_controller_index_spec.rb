@@ -3,7 +3,13 @@
 require 'rails_helper'
 
 RSpec.describe ProjectsController, type: :controller do
+  login_user
+
   context 'When there are projects to list' do
+    before do
+      create(:project, title: 'Indirect')
+    end
+
     it 'renders a successful response' do
       get :index
 
@@ -11,8 +17,6 @@ RSpec.describe ProjectsController, type: :controller do
     end
 
     it 'returns the right response' do
-      Project.create(title: 'Indirect')
-
       get :index
 
       json_response = JSON.parse(response.body)

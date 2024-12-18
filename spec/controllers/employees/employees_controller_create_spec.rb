@@ -3,14 +3,10 @@
 require 'rails_helper'
 
 RSpec.describe EmployeesController, type: :controller do
-  context 'When all params are valid' do
-    let(:params) { { user_name: 'Amaral', project: 'Project 1', technologies: 'Name 1' } }
+  login_user
 
-    before do
-      FactoryBot.reload
-      create(:project)
-      create(:technology)
-    end
+  context 'When all params are valid' do
+    let(:params) { { user_name: 'Amaral', project: 'Project 1', technologies: ['Name 1'] } }
 
     it 'returns status code 200' do
       post :create, params: params, as: :json
@@ -45,7 +41,7 @@ RSpec.describe EmployeesController, type: :controller do
     end
   end
 
-  context 'without employee params' do
+  context 'without employees params' do
     let(:params) { {} }
 
     it 'returns status code 400' do

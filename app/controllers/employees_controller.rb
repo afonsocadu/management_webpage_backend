@@ -1,83 +1,53 @@
 class EmployeesController < ApplicationController
+  before_action :authenticate_user!
 
   # Returns a list of employees with specific information
   def index
-    employees = Employee.left_joins(:project).select(:id, :user_name, :title)
-
-    employees_data = employees.map do |employee|
-      {
-        id: employee.id,
-        user_name: employee.user_name,
-        title: employee.title,
-        technologies: employee.technologies.pluck(:name)
-      }
-    end
+    employees_data = Employees::Index.new.call
 
     render status: 200,
            json: employees_data
   end
 
-  # Deletes an employee based on the provided `id`.
-  def destroy
+  # Deletes an employees based on the provided `id`.
+  def destroy #Aqui acredito que é muito simples para criar um serviço.
     employee = Employee.find(params[:id])
 
     if employee.destroy
       render json: { message: 'Employee deleted successfully!' }
     else
-      render json: { error: 'An error occurred when trying to delete the employee', details: employee.errors.full_messages }, status: :unprocessable_entity
+      render json: { error: 'An error occurred when trying to delete the employees', details: employee.errors.full_messages }, status: :unprocessable_entity
     end
   end
 
-  # Updates the information of an employee based on the provided `id`.
+  # Updates the information of an employees based on the provided `id`.
   def update
+    data_to_update = params.permit(:user_name)
+
+    data_updated = Employees::Update.new(params[:technology], params[:project], data_to_update).call
+
     employee = Employee.find(params[:id])
-    data_updated = params.permit(:user_name)
 
-    if params[:technology]
-      technologies = params[:technology].map { |tech| Technology.find_by(name: tech) }
-
-      data_updated[:technologies] = technologies
-    end
-
-    if params[:project]
-      project = Project.find_by(title: params[:project])
-
-      data_updated[:project] = project
-    end
-
-    if employee.update(data_updated)
+    if employee.update(data_updated) #Eu deveria passar isso tudo para o serviço?
       render status: :ok, json: employee
     else
       render status: :unprocessable_entity, json: { error: 'Employee was not updated!' }
     end
   end
 
-  # Creates a new employee based on the provided parameters,
+  # Creates a new employees based on the provided parameters,
   def create
-    project_title = params.require(:project)
-    user_name = params.require(:user_name)
+    data_params = { user_name: params.require(:user_name) }
     technology_name = params.require(:technologies)
 
-    project = Project.find_by(title: project_title)
-
-    technology = Technology.find_by(name: technology_name)
-
-    employee = Employee.new(
-      user_name: user_name,
-      project: project
-    )
-
-    employee.technologies << technology
+    employee = Employees::Create.new(data_params, params[:project], technology_name).call
 
     if employee.save
       render status: :ok, json: {
-        id: employee.id,
-        user_name: employee.user_name,
-        title: employee.project.title,
-        technologies: employee.technologies.pluck(:name)
+        employee: employee
       }
     else
-      render status: :unprocessable_entity, json: { error: 'Employee was not created!' }
+      render status: :unprocessable_entity, json: { error: employee.errors.full_messages }
     end
   end
 end

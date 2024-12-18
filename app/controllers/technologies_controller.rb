@@ -1,4 +1,5 @@
 class TechnologiesController < ApplicationController
+  before_action :authenticate_user!
 
   # Returns a list of technologies
   def index
@@ -20,12 +21,10 @@ class TechnologiesController < ApplicationController
   end
 
   # Updates a tecnology based on the provided name
-
   def update
     technology = Technology.find(params[:id])
-    name = params[:name]
 
-    if technology.update(name: name)
+    if technology.update(name: params[:name])
       render status: :ok, json: technology
     else
       render status: :unprocessable_entity, json: { error: technology.errors.full_messages.to_sentence }

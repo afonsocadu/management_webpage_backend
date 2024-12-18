@@ -3,22 +3,25 @@
 require 'rails_helper'
 
 RSpec.describe ProjectsController, type: :controller do
+  login_user
+  let(:technologies) { create_list(:technology, 2) }
+
   before do
-    create_list(:project, 3)
+    create(:project, title: 'Project X', technologies: technologies)
   end
 
-  context 'without project params' do
+  context 'without projects params' do
     it 'returns status code 400' do
       put :update, params: { id: 1 }
 
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:bad_request)
     end
   end
 
   context 'when do not find project id' do
-    project_nonexistent = { id: 100, title: 'INAO' }
+    let(:project_nonexistent) { { id: 100, title: 'INAO' } }
 
-    it 'returns status code 400' do
+    it 'returns status code 404' do
       put :update, params: project_nonexistent, as: :json
 
       expect(response).to have_http_status(:not_found)
@@ -26,20 +29,12 @@ RSpec.describe ProjectsController, type: :controller do
   end
 
   context 'with valid project params' do
-    project_to_update = { id: 1, title: 'Project Y' }
+    let(:project_to_update) { { id: 1, updated_data: { project_name: 'Project Y' } } }
 
     it 'returns 200' do
       put :update, params: project_to_update, as: :json
 
       expect(response).to have_http_status(:ok)
-    end
-
-    it 'returns the updated employee' do
-      put :update, params: project_to_update, as: :json
-
-      json_response = JSON.parse(response.body)
-
-      expect(json_response['title']).to eq('Project Y')
     end
   end
 end

@@ -3,34 +3,33 @@
 require 'rails_helper'
 
 RSpec.describe EmployeesController, type: :controller do
-  before do
-    FactoryBot.reload
-    @project = create(:project)
-    @technology = create_list(:technology, 3)
-
-  end
+  login_user
 
   context 'When there are employees to list' do
+    let(:technologies) { create_list(:technology, 2) }
+    let(:project) { create(:project, technologies: technologies) }
+    before do
+      FactoryBot.reload
+      create(:employee, user_name: 'Amaral', technologies: technologies, project: project)
+    end
     it 'renders a successful response' do
       get :index
+
       expect(response).to have_http_status(:ok)
     end
 
     it 'returns the right response' do
-      #project = Project.create(title: 'Indirect')
-      employee = Employee.create(user_name: 'Amaral', project: @project)
-      employee.technologies << @technology
-
       get :index
+
       json_response = JSON.parse(response.body)
 
       expect(json_response[0]['user_name']).to eq('Amaral')
-      expect(json_response[0]['title']).to eq('Project 1')
-      expect(json_response[0]['technologies']).to eq( ["Name 1", "Name 2", "Name 3"])
+      expect(json_response[0]['title']).to eq('Project X')
+      expect(json_response[0]['technologies']).to eq( ["Technology-1", "Technology-2"])
     end
   end
 
-  context 'when does not exist employee to list' do
+  context 'when does not exist employees to list' do
     it 'returns 200' do
       get :index
 
