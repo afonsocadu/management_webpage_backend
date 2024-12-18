@@ -14,3 +14,8 @@ The application uses Ruby on Rails for the backend, providing a robust API with 
 * Gems: factory_bot_rails, rspec-rails, sqlite3, rack-cors, bootsnap, among others.
 * Database: SQLite
 * Authentication: Implemented with support for authenticated users and authorization.
+
+Frontend:
+* Repository: The frontend is in a separate repository 👉 [Frontend Repository - management_webpage_front](https://github.com/afonsocadu/management_webpage_front)
+* Framework/Library Angular
+* Fully responsive design for improved usability on all devices.
