@@ -3,7 +3,6 @@
 require 'rails_helper'
 
 RSpec.describe TechnologiesController, type: :controller do
-  login_user
   context 'when param is valid' do
     let(:param) { { name: 'Rails' } }
 

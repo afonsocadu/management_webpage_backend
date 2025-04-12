@@ -1,5 +1,4 @@
 class TechnologiesController < ApplicationController
-  before_action :authenticate_user!
 
   # Returns a list of technologies
   def index

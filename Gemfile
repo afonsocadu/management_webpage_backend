@@ -46,8 +46,4 @@ group :test do
   gem 'shoulda-matchers'
 end
 
-gem "devise_token_auth", "~> 1.2"
-
-# "letter_opener", "~> 1.10"
-
 gem "active_model_serializers", "~> 0.10.14"

@@ -3,7 +3,6 @@
 require 'rails_helper'
 
 RSpec.describe ProjectsController, type: :controller do
-  login_user
   let(:technologies) { create_list(:technology, 2) }
 
   before do

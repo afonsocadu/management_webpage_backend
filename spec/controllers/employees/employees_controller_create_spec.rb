@@ -3,7 +3,6 @@
 require 'rails_helper'
 
 RSpec.describe EmployeesController, type: :controller do
-  login_user
 
   context 'When all params are valid' do
     let(:params) { { user_name: 'Amaral', project: 'Project 1', technologies: ['Name 1'] } }

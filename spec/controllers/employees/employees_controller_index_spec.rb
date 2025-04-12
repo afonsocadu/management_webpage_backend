@@ -3,7 +3,6 @@
 require 'rails_helper'
 
 RSpec.describe EmployeesController, type: :controller do
-  login_user
 
   context 'When there are employees to list' do
     let(:technologies) { create_list(:technology, 2) }
