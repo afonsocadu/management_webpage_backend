@@ -27,7 +27,7 @@ class EmployeesController < ApplicationController
 
     employee = Employee.find(params[:id])
 
-    if employee.update(data_updated) #Eu deveria passar isso tudo para o serviço?
+    if employee.update(data_updated)
       render status: :ok, json: employee
     else
       render status: :unprocessable_entity, json: { error: 'Employee was not updated!' }
@@ -48,5 +48,13 @@ class EmployeesController < ApplicationController
     else
       render status: :unprocessable_entity, json: { error: employee.errors.full_messages }
     end
+  end
+
+  def import_file
+    file = params.require(:file)
+
+    Employees::EmployeeImportService.new(file).call
+
+    head :ok
   end
 end

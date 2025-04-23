@@ -1,0 +1,49 @@
+# frozen_string_literal: true
+
+require 'rails_helper'
+
+RSpec.describe EmployeesController, type: :controller do
+  describe 'POST #import_file' do
+    # Structure of the file
+    # User 01,Project 01,Ruby; Java
+    # User 02,Project 02,Angular; Python
+    let(:file) { fixture_file_upload('employees.xlsx', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet') }
+
+    before do
+      create(:technology, name: 'Ruby')
+      create(:technology, name: 'Java')
+      create(:technology, name: 'Python')
+      create(:technology, name: 'Angular')
+    end
+
+    it 'return status 200' do
+      post :import_file, params: { file: file }
+
+      expect(response).to have_http_status(200)
+    end
+
+    it 'expects to create employees' do
+      post :import_file, params: { file: file }
+
+      expect(Employee.count).to eq(2)
+    end
+
+    it 'imports employees from a excel file' do
+      post :import_file, params: { file: file }
+
+      imported_usernames = Employee.pluck(:user_name)
+
+      expect(imported_usernames).to include('User 01', 'User 02')
+    end
+
+    it 'import technologies from a excel file' do
+      post :import_file, params: { file: file }
+
+      employee_01 = Employee.find_by(user_name: 'User 01')
+      employee_02 = Employee.find_by(user_name: 'User 02')
+
+      expect(employee_01.technologies.pluck(:name)).to include('Ruby', 'Java')
+      expect(employee_02.technologies.pluck(:name)).to include('Angular', 'Python')
+    end
+  end
+end
