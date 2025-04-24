@@ -50,11 +50,16 @@ class EmployeesController < ApplicationController
     end
   end
 
+  # Imports a file containing employee data
   def import_file
-    file = params.require(:file)
+    uploaded_file = params.require(:file)
 
-    Employees::EmployeeImportService.new(file).call
+    tmp_path = Rails.root.join('tmp', 'uploads', "#{uploaded_file.original_filename}")
+    FileUtils.mkdir_p(File.dirname(tmp_path))
+    File.binwrite(tmp_path, uploaded_file.read)
 
-    head :ok
+    Employees::ImportFileJob.perform_later(tmp_path.to_s)
+
+    head :accepted
   end
 end

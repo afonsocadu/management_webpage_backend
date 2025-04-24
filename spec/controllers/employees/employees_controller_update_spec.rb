@@ -31,7 +31,6 @@ RSpec.describe EmployeesController, type: :controller do
 
   context 'with valid employees params' do
     before do
-      byebug
       create(:technology, name: 'Rails')
     end
 

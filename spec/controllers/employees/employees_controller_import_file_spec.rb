@@ -1,12 +1,15 @@
-# frozen_string_literal: true
-
 require 'rails_helper'
 
 RSpec.describe EmployeesController, type: :controller do
+  include ActiveJob::TestHelper
+
   describe 'POST #import_file' do
-    # Structure of the file
-    # User 01,Project 01,Ruby; Java
-    # User 02,Project 02,Angular; Python
+    around do |example|
+      perform_enqueued_jobs do
+        example.run
+      end
+    end
+
     let(:file) { fixture_file_upload('employees.xlsx', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet') }
 
     before do
@@ -14,12 +17,14 @@ RSpec.describe EmployeesController, type: :controller do
       create(:technology, name: 'Java')
       create(:technology, name: 'Python')
       create(:technology, name: 'Angular')
+
+      # I decided not mocking the job to ensure the full flow is working correctly
     end
 
     it 'return status 200' do
       post :import_file, params: { file: file }
 
-      expect(response).to have_http_status(200)
+      expect(response).to have_http_status(202)
     end
 
     it 'expects to create employees' do
@@ -44,6 +49,12 @@ RSpec.describe EmployeesController, type: :controller do
 
       expect(employee_01.technologies.pluck(:name)).to include('Ruby', 'Java')
       expect(employee_02.technologies.pluck(:name)).to include('Angular', 'Python')
+    end
+
+    it 'enqueues the import job with the correct path' do
+      expect(Employees::ImportFileJob).to receive(:perform_later).with(a_string_including('employees.xlsx'))
+
+      post :import_file, params: { file: file }
     end
   end
 end
