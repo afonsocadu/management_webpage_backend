@@ -10,7 +10,7 @@ RSpec.describe EmployeesController, type: :controller do
       end
     end
 
-    let(:file) { fixture_file_upload('employees.xlsx', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet') }
+    let(:file) { fixture_file_upload(file_fixture('employees.xlsx'), 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet') }
 
     before do
       create(:technology, name: 'Ruby')
