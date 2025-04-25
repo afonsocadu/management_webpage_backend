@@ -3,7 +3,6 @@
 require 'rails_helper'
 
 RSpec.describe EmployeesController, type: :controller do
-  login_user
   let(:technologies) { create_list(:technology, 2) }
   let(:project) { create(:project, title: 'Project 1', technologies: technologies) }
 
@@ -31,7 +30,11 @@ RSpec.describe EmployeesController, type: :controller do
   end
 
   context 'with valid employees params' do
-    let(:employee_to_update) { { id: 1, user_name: 'Amaral', project: 'Project 2', technology: ['Technology-1'] } }
+    before do
+      create(:technology, name: 'Rails')
+    end
+
+    let(:employee_to_update) { { id: 1, user_name: 'User Updated', project: 'Project 2', technology: ['Rails'] } }
 
     before do
       create(:project, title: 'Project 2')
@@ -48,7 +51,7 @@ RSpec.describe EmployeesController, type: :controller do
 
       json_response = JSON.parse(response.body)
 
-      expect(json_response['user_name']).to eq('Amaral')
+      expect(json_response['user_name']).to eq('User Updated')
       expect(Project.find(json_response['project_id']).title).to eq('Project 2')
     end
   end

@@ -3,7 +3,6 @@
 require 'rails_helper'
 
 RSpec.describe TechnologiesController, type: :controller do
-  login_user
   context 'When there are technologies to list' do
     it 'renders a successful response' do
       get :index

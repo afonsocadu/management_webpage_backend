@@ -3,8 +3,6 @@
 require 'rails_helper'
 
 RSpec.describe ProjectsController, type: :controller do
-  login_user
-
   before do
     create(:project, title: 'Indirect')
   end

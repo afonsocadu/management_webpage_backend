@@ -85,12 +85,6 @@ RSpec.configure do |config|
   # config.filter_gems_from_backtrace("gem name")
   config.include FactoryBot::Syntax::Methods
 
-  require 'devise'
-
-  #RSpec.configure do |config|
-    #config.include Devise::Test::ControllerHelpers, type: :controller
-    # end
-
 
   #Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
   # This file is copied to spec/ when you run 'rails generate rspec:install'
@@ -107,7 +101,5 @@ RSpec.configure do |config|
   RSpec.configure do |config|
     # ... omitted ...
 
-    config.include Devise::Test::ControllerHelpers, type: :controller
-    config.extend ControllerMacros, type: :controller
   end
 end

@@ -1,5 +1,4 @@
 class EmployeesController < ApplicationController
-  before_action :authenticate_user!
 
   # Returns a list of employees with specific information
   def index
@@ -28,7 +27,7 @@ class EmployeesController < ApplicationController
 
     employee = Employee.find(params[:id])
 
-    if employee.update(data_updated) #Eu deveria passar isso tudo para o serviço?
+    if employee.update(data_updated)
       render status: :ok, json: employee
     else
       render status: :unprocessable_entity, json: { error: 'Employee was not updated!' }
@@ -49,5 +48,18 @@ class EmployeesController < ApplicationController
     else
       render status: :unprocessable_entity, json: { error: employee.errors.full_messages }
     end
+  end
+
+  # Imports a file containing employee data
+  def import_file
+    uploaded_file = params.require(:file)
+
+    tmp_path = Rails.root.join('tmp', 'uploads', "#{uploaded_file.original_filename}")
+    FileUtils.mkdir_p(File.dirname(tmp_path))
+    File.binwrite(tmp_path, uploaded_file.read)
+
+    Employees::ImportFileJob.perform_later(tmp_path.to_s)
+
+    head :accepted
   end
 end

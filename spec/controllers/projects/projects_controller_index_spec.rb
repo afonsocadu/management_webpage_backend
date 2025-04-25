@@ -3,8 +3,6 @@
 require 'rails_helper'
 
 RSpec.describe ProjectsController, type: :controller do
-  login_user
-
   context 'When there are projects to list' do
     before do
       create(:project, title: 'Indirect')
