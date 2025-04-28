@@ -7,12 +7,11 @@ RSpec.describe EmployeesController, type: :controller do
   let(:project) { create(:project, title: 'Project 1', technologies: technologies) }
 
   before do
-    FactoryBot.reload
-    create(:employee, user_name: 'Teresa', project: project, technologies: technologies)
+    create(:employee, user_name: 'User 01', project: project, technologies: technologies)
   end
 
   context 'without employees params' do
-    it 'returns status code 422' do
+    it 'returns status code 200' do
        put :update, params: { id: 1 }
 
        expect(response).to have_http_status(:ok)
@@ -30,14 +29,23 @@ RSpec.describe EmployeesController, type: :controller do
   end
 
   context 'with valid employees params' do
-    before do
-      create(:technology, name: 'Rails')
-    end
-
+    let(:service_instance) { instance_double(Employees::Update) }
+    let(:project) { create(:project, title: 'Project 2') }
+    let(:technology) { create(:technology, name: 'Rails') }
     let(:employee_to_update) { { id: 1, user_name: 'User Updated', project: 'Project 2', technology: ['Rails'] } }
 
+    let(:mock_response) do
+      {
+        id: 1,
+        user_name: 'User Updated',
+        project: project,
+        technologies: [technology]
+      }
+    end
+
     before do
-      create(:project, title: 'Project 2')
+      allow(Employees::Update).to receive(:new).and_return(service_instance)
+      allow(service_instance).to receive(:call).and_return(mock_response)
     end
 
     it 'returns 200' do

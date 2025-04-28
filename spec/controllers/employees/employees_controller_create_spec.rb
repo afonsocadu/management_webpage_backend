@@ -3,13 +3,24 @@
 require 'rails_helper'
 
 RSpec.describe EmployeesController, type: :controller do
+  let(:service_instance) { instance_double(Employees::Create) }
+
+  let(:technologies) { create_list(:technology, 2) }
+  let(:project) { create(:project, title: 'Project 1', technologies: technologies) }
+  let(:employee) { create(:employee, user_name: 'User 01', project: project, technologies: technologies) }
+
   before do
     create(:technology, name: 'Technology 1')
     create(:technology, name: 'Technology 2')
   end
 
   context 'When all params are valid' do
-    let(:params) { { user_name: 'Amaral', project: 'Project 1', technologies: ['Technology 1', 'Technology 2'] } }
+    before do
+      allow(Employees::Create).to receive(:new).and_return(service_instance)
+      allow(service_instance).to receive(:call).and_return(employee)
+    end
+
+    let(:params) { { user_name: 'User 01', project: 'Project 1', technologies: ['Technology 1', 'Technology 2'] } }
 
     it 'returns status code 200' do
       post :create, params: params, as: :json
@@ -17,10 +28,10 @@ RSpec.describe EmployeesController, type: :controller do
       expect(response).to have_http_status(:ok)
     end
 
-    it 'creates the Employee' do
+    it 'calls the Employees::Create service' do
       post :create, params: params, as: :json
 
-      expect(Employee.all.size).to be(1)
+      expect(service_instance).to have_received(:call)
     end
   end
 
@@ -35,7 +46,7 @@ RSpec.describe EmployeesController, type: :controller do
   end
 
   context 'without title param' do
-    let(:params) { { user_name: 'Amaral' } }
+    let(:params) { { user_name: 'User 01' } }
 
     it 'returns status code 400' do
       post :create, params: params, as: :json

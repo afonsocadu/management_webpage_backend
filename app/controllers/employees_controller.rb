@@ -9,7 +9,7 @@ class EmployeesController < ApplicationController
   end
 
   # Deletes an employees based on the provided `id`.
-  def destroy #Aqui acredito que é muito simples para criar um serviço.
+  def destroy
     employee = Employee.find(params[:id])
 
     if employee.destroy
