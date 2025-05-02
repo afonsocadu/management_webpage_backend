@@ -46,7 +46,7 @@ Before getting started, ensure you have the following installed:
 
 ---
 
-## 🚀 Installation & Local Execution
+## Installation & Local Execution
 
 1. **Clone the repository**
 
@@ -84,7 +84,7 @@ Before getting started, ensure you have the following installed:
 
 ---
 
-## ✔️ Tests
+## Tests
 
 - **Run the full test suite**
 
@@ -100,7 +100,7 @@ Before getting started, ensure you have the following installed:
 
 ---
 
-## 🌐 API Access
+## API Access
 
 Access the API at: [http://localhost:3000](http://localhost:3000)
 
@@ -112,4 +112,3 @@ Access the API at: [http://localhost:3000](http://localhost:3000)
 - Unify communication with the main application
 
   **Frontend:** [https://github.com/afonsocadu/management_webpage_front](https://github.com/afonsocadu/management_webpage_front)
-
