@@ -1,5 +1,0 @@
-class Projects::Index
-
-
-
-end

@@ -10,7 +10,6 @@ RSpec.describe Employees::Index do
     let(:project) { create(:project, technologies: technologies) }
 
     before do
-      FactoryBot.reload
       create(:employee, user_name: 'User 01', technologies: technologies, project: project)
     end
 
