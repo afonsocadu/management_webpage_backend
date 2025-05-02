@@ -31,7 +31,6 @@ class TechnologiesController < ApplicationController
   end
 
   # Creates a new technology based on the provided parameter,
-
   def create
     name = params.require(:name)
 

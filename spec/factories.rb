@@ -11,7 +11,7 @@ FactoryBot.define do
   end
 
   factory :employee do
-    user_name { 'Amaral' }
+    user_name { 'User 01' }
     technologies { [association(:technology)] }
   end
 

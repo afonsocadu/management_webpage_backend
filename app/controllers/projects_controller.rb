@@ -9,7 +9,7 @@ class ProjectsController < ApplicationController
   end
 
   # Creates a new project based on the provided parameters,
-  def create #Aqui acredito que é muito simples para criar um serviço.
+  def create
     title = params.require(:title)
     project = Project.new(title: title)
 
@@ -27,7 +27,7 @@ class ProjectsController < ApplicationController
   end
 
   # Deletes an project based on the provided `id`.
-  def destroy #Aqui acredito que é muito simples para criar um serviço.
+  def destroy
     project = Project.find(params[:id])
 
     if project.destroy
@@ -45,7 +45,7 @@ class ProjectsController < ApplicationController
 
     project = Project.find(project_id)
 
-    employees = Projects::UpdateEmployees.new(employees_name, project).call
+    employees = Projects::FilterEligibleEmployees.new(employees_name, project).call
 
     if project.update(employees: employees[:employee_to_update])
       render status: :ok, json: { updated_employees: project.employees, employees_not_updated: employees[:employees_not_updated=] }
