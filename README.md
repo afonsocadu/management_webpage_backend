@@ -106,7 +106,7 @@ Access the API at: [http://localhost:3000](http://localhost:3000)
 
 ---
 
-## 🛠️ To Do
+## To Do
 
 - Connect the backend to the existing frontend
 - Unify communication with the main application
