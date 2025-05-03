@@ -102,4 +102,4 @@ Before getting started, ensure you have the following installed:
 
 ## System Design Documentation
 
-The complete system design documentation is available at [docs/system_design_documentation.docx](docs/system_design_documentation.docx).
+The complete system design documentation is available at [docs/system_design_documentation.md](docs/system_design_documentation.md).
