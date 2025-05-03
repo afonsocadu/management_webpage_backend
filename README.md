@@ -16,8 +16,8 @@ This backend provides:
 ### Employee Management
 - Profile CRUD
 - Technology assignment
-- Allocation to projects based on skill compatibility
-- Batch import via spreadsheets (`roo`)
+- Allocation to projects based on tchnology compatibility
+- Batch import via spreadsheets
 
 ### Technologies
 - CRUD for managing and linking technologies to projects and employees
@@ -38,10 +38,6 @@ Before getting started, ensure you have the following installed:
 
 - **Ruby** `3.1.3`
 - **Rails** `6.1.7.6`
-- **Database**:
-  - SQLite3 (development)
-  - PostgreSQL (production)
-- **Redis** (required for Sidekiq)
 - **Foreman** or **Overmind** (to manage Procfile-based services)
 
 ---
