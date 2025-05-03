@@ -1,0 +1,107 @@
+# Management Webpage Backend
+
+## Overview
+
+**System Objective**: This system is designed to manage employees, projects, and associated technologies.
+
+Key Features:
+- CRUD operations for **Employees**, **Projects**, and **Technologies**
+- Import employee data from spreadsheets
+- Model associations to manage relationships between entities
+- JSON API for front-end consumption (SPA or mobile)
+
+For installation and testing instructions, please refer to the [README](https://github.com/afonsocadu/management_webpage_backend/blob/main/README.md).
+
+---
+
+## Data Modeling
+
+### Entities
+
+#### Project
+- A **Project** can have many **Employees** (`has_many` relationship).
+- A **Project** is associated with a set of **Technologies**, which represent the skills required for the project (`has_and_belongs_to_many` relationship).
+
+#### Employee
+- Each **Employee** belongs to a single **Project** (`belongs_to` relationship).
+- **Constraint**: An employee can only be assigned to a project if they possess at least one technology in common with the project.
+- The `Employee` model includes a class method that checks if an employee can be associated with a project based on shared technologies.
+
+#### Technology
+- A **Technology** can be associated with multiple **Projects** (`has_and_belongs_to_many` relationship).
+- Each **Employee** has a set of **Technologies** they are proficient in (`has_and_belongs_to_many` relationship).
+
+### Relationships and Association Logic
+
+- **Project and Employee**:
+
+    A **Project** can have many **Employees** (`has_many :employees`), but each **Employee** belongs to only one **Project** (`belongs_to :project`).
+
+- **Project and Technology**:
+
+    Each **Project** is related to several **Technologies**. This association helps define the required competencies for employees.
+
+- **Employee and Project**:
+
+    The association between an **Employee** and a **Project** is only possible if the **Employee** has at least one **Technology** in common with the **Project**.
+
+
+### Employee Import Process
+
+When a CSV/Spreadsheet file is uploaded, the system:
+
+1. Receives the file via the `POST /employees/import` endpoint
+    - Expected parameter: `file` (multipart-form)
+    - The file has 3 columns: user_name, project, and technology_name
+    - An example file is located at: spec/fixtures/files/employees.xlsx
+2. Temporarily stores the file in `tmp/uploads/`
+    - **Prevents the processing of incomplete or corrupted files**, ensuring **security and process integrity**.
+3. Enqueues an asynchronous Job (`Employees::ImportFileJob`)
+    - Reading with `Roo::Spreadsheet.open`
+    - Header mapped to attribute keys
+    - For each row, within a transaction:
+        - Creates the `Employee` with `user_name` and `project_id`
+        - Splits technology names (`split(';')`)
+        - Uses `find_or_create_by` for each `Technology`
+        - Associates technologies to the employee (`employee.technologies << …`)
+        - **Extra validation**: before associating, invokes a class method that checks availability and common technology (as per business rules).
+4. After completion, deletes the temporary file.
+5. Returns HTTP 202 Accepted to the client, as processing is done in the background.
+
+### Architecture
+
+- **The project structure is monolithic, meaning all logic and functionality are centralized in a single application, making it easier to manage and implement changes without dealing with multiple independent services.**
+- **The architectural pattern used is MVC (Model-View-Controller) in the development of the application with Ruby on Rails, ensuring clear separation of responsibilities. The model, which handles business logic, includes the `employees`, `projects`, and `technologies` tables. The Controller manages requests and interactions between the Model and the client, while the View, in the backend or API context, is not necessary as the application is intended for consumption by the front-end (such as SPA or mobile).**
+
+- **Diagrams**: Link to Architecture Diagram (draw.io / Miro)
+
+- **Main Technologies**:
+    - Ruby 3.1.3, Rails 6.1.7
+    - Database: SQLite3 (dev/test), PostgreSQL (prod)
+    - Web server: Puma
+    - Background jobs: Sidekiq + Redis
+    - Process management: Foreman (Procfile)
+    - CORS: rack‑cors
+    - Serialization: active_model_serializers
+
+---
+
+### 4. Database
+
+- **ER Model**:
+    - `employees` (id, user_name, project_id)
+    - `projects` (id, title)
+    - `technologies` (id, name)
+    - `employees_technologies` (employee_id, technology_id)
+    - `projects_technologies` (project_id, technology_id)
+- **Indexes**:
+    - `index_employees_on_project_id`
+    - indexes on the join tables for `employee_id`, `project_id`, `technology_id`
+
+---
+
+**TODO**
+
+- Change the import column names: for example, change `user_name` to `User name`. This should be simple to implement by adapting the logic that reads the file header to recognize the new readable names.
+- Integrate with the *Management Webpage* frontend available at: [GitHub - Management Webpage Frontend](https://github.com/afonsocadu/management_webpage_front).
+- The frontend application, which uses Angular Material, already implements the CRUD for **employees**, **projects**, and **technologies**, but it doesn't yet have the logic to support importing this data.
