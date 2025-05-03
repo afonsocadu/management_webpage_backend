@@ -100,15 +100,6 @@ Before getting started, ensure you have the following installed:
 
 ---
 
-## API Access
+## System Design Documentation
 
-Access the API at: [http://localhost:3000](http://localhost:3000)
-
----
-
-## To Do
-
-- Connect the backend to the existing frontend
-- Unify communication with the main application
-
-  **Frontend:** [https://github.com/afonsocadu/management_webpage_front](https://github.com/afonsocadu/management_webpage_front)
+The complete system design documentation is available at [docs/system_design_documentation.docx](docs/system_design_documentation.docx).
