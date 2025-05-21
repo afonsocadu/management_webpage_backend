@@ -31,4 +31,9 @@ group :test do
   gem 'shoulda-matchers'
 end
 
+group :production do
+  gem 'sass-rails', '~> 6'
+  gem 'sprockets-rails', '~> 3.2'
+end
+
 gem "active_model_serializers", "~> 0.10.14"
